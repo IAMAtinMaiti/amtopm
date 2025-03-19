@@ -1,3 +1,2 @@
 [theme]
-base = "light"
-secondaryBackgroundColor = "#FFA500"
+base = "dark"
