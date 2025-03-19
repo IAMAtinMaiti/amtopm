@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit_timeline import st_timeline
 
 # Custom CSS to hide the GitHub icon
 hide_github_icon = """
@@ -35,14 +34,9 @@ with tabs[2]:
     st.write("A collection of our cherished moments:")
     st.image(["amtopm.jpeg", "amtopm.jpeg", "amtopm.jpeg"], width=300)
 
-events = [
-    {"id": 1, "content": "Ceremony", "start": "2025-06-15T15:00:00", "end": "2025-06-15T16:00:00"},
-    {"id": 2, "content": "Reception", "start": "2025-06-15T18:00:00", "end": "2025-06-15T23:00:00"},
-    {"id": 3, "content": "After Party", "start": "2025-06-16T00:00:00", "end": "2025-06-16T02:00:00"},
-]
-
 # Event Timeline Tab
 with tabs[3]:
     st.header("Event Timeline")
-    timeline = st_timeline(events, groups=[], options={}, height="400px")
-
+    st.write("Join us for the following events:")
+    st.write("**Ceremony**: 3:00 PM at St. Mary's Church")
+    st.write("**Reception**: 6:00 PM at The Grand Ballroom")
