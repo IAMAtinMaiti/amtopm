@@ -20,7 +20,7 @@ with tabs[1]:
 with tabs[2]:
     st.header("Photo Gallery")
     st.write("A collection of our cherished moments:")
-    st.image(["photo1.jpg", "photo2.jpg", "photo3.jpg"], width=300)
+    st.image(["amtopm.jpeg", "amtopm.jpeg", "amtopm.jpeg"], width=300)
 
 # Event Timeline Tab
 with tabs[3]:
