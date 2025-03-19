@@ -84,14 +84,13 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 # )
 
 # Sidebar navigation
-#selection = st.sidebar.selectbox("Navigation", ["Home", "Testimonials", "Gallery", "Event Timeline"])
-selection = option_menu("Navigation",["Home", "Testimonials", "Gallery", "Event Timeline"],
-                        menu_icon="cast", default_index=0, orientation="vertical")
+#selection = st.sidebar.selectbox(["Home", "Testimonials", "Gallery", "Event Timeline"])
+# selection = option_menu("Navigation",["Home", "Testimonials", "Gallery", "Event Timeline"],
+#                         menu_icon="cast", default_index=0, orientation="vertical")
 
 
 # Display content based on selection
-if selection == "Home":
-    st.title("Home")
+with st.sidebar.title('Home'):
     st.write("Welcome to our wedding event website!")
     st.header("Welcome to Our Wedding")
     st.image("amtopm.jpeg", caption="Our Engagement Photo")
@@ -117,7 +116,7 @@ if selection == "Home":
             st.write(f"Number of Guests: {guests}")
             st.write(f"Dietary Requirements: {dietary_requirements}")
 
-elif selection == "Testimonials":
+with st.sidebar.title('Testimonials'):
     st.title("Testimonials")
     st.write("Read what our guests have to say.")
     st.header("Testimonials")
@@ -158,7 +157,7 @@ elif selection == "Testimonials":
         else:
             st.write("No testimonials yet. Be the first to share!")
 
-elif selection == "Gallery":
+with st.sidebar.title('Gallery'):
     st.title("Gallery")
     st.write("View photos from our special day.")
     st.header("Photo Gallery")
@@ -177,7 +176,8 @@ elif selection == "Gallery":
         with cols[i % num_columns]:
             st.image(image_path, use_container_width=True)
 
-elif selection == "Event Timeline":
+
+with st.sidebar.title('Event Timeline'):
     st.title("Event Timeline")
     st.write("See the schedule of events.")
     st.header("Event Timeline")
