@@ -88,7 +88,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # Sidebar navigation
 #selection = st.sidebar.selectbox("Navigation", ["Home", "Testimonials", "Gallery", "Event Timeline"])
-selection = option_menu("Navigation",["Home", "Testimonials", "Gallery", "Event Timeline"])
+selection = option_menu("Navigation",["Home", "Testimonials", "Gallery", "Event Timeline"], menu_icon="cast", default_index=0)
 
 
 # Display content based on selection
