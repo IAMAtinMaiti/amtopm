@@ -165,6 +165,14 @@ with tabs[3]:
     st.write("Join us for the following events:")
     fig = go.Figure()
 
+    data = {
+        "Title": ["Event 1", "Event 2", "Event 3"],
+        "Description": ["Description of Event 1", "Description of Event 2", "Description of Event 3"],
+        "Date": ["2025-01-01", "2025-02-01", "2025-03-01"]
+    }
+    df = pd.DataFrame(data)
+    df["Date"] = pd.to_datetime(df["Date"])
+
     for i, row in df.iterrows():
         fig.add_trace(go.Scatter(
             x=[row["Date"], row["Date"]],
