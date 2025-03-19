@@ -94,7 +94,7 @@ with tabs[2]:
     image_paths = ["amtopm.jpeg", "amtopm.jpeg", "amtopm.jpeg", "amtopm.jpeg"]
 
     # Define the number of columns
-    num_columns = 4
+    num_columns = 2
 
     # Create columns
     cols = st.columns(num_columns)
