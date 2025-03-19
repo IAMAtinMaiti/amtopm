@@ -6,6 +6,30 @@ hide_streamlit_style = """
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
+        
+        /* Container for the tabs */
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 2px;
+        }
+    
+        /* Individual tab style */
+        .stTabs [data-baseweb="tab"] {
+            height: 50px;
+            white-space: pre-wrap;
+            background-color: #F0F2F6;
+            border-radius: 4px 4px 0px 0px;
+            gap: 1px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            color: #4f4f4f;
+            font-family: 'Courier New', Courier, monospace;
+        }
+    
+        /* Active tab style */
+        .stTabs [aria-selected="true"] {
+            background-color: #FFFFFF;
+            color: #000000;
+        }
     </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
