@@ -119,12 +119,18 @@ if selection == "Home":
 
 
 elif selection == "Testimonials":
-    st.title("Testimonials")
     st.write("Read what our guests have to say.")
-    st.header("Testimonials")
-    st.write("Here's what our friends and family say about us:")
-    st.write("- *'A match made in heaven!'* – Jane Doe")
-    st.write("- *'Two beautiful souls coming together.'* – John Smith")
+
+    # Display existing testimonials
+    st.subheader("What Others Are Saying")
+    testimonials = load_testimonials()
+    if testimonials:
+        for testimonial in reversed(testimonials):
+            st.write(f"**{testimonial['name']}**")
+            st.write(testimonial['testimonial'])
+            st.write("---")
+    else:
+        st.write("No testimonials yet. Be the first to share!")
 
     # Testimonials Tab
     with st.expander("Testimonials", expanded=True):
@@ -148,16 +154,6 @@ elif selection == "Testimonials":
                 else:
                     st.error("Please provide both your name and testimonial.")
 
-        # Display existing testimonials
-        st.subheader("What Others Are Saying")
-        testimonials = load_testimonials()
-        if testimonials:
-            for testimonial in reversed(testimonials):
-                st.write(f"**{testimonial['name']}**")
-                st.write(testimonial['testimonial'])
-                st.write("---")
-        else:
-            st.write("No testimonials yet. Be the first to share!")
 
 elif selection == "Gallery":
     st.title("Gallery")
