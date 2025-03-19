@@ -64,9 +64,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"  # Sidebar is always expanded
 )
 
-
 # Sidebar navigation
-st.sidebar.title("Navigation")# Set the page configuration
+st.sidebar.title("Navigation")
 selection = st.sidebar.radio("Go to", ["Home", "Testimonials", "Gallery", "Event Timeline"])
 
 # Display content based on selection
