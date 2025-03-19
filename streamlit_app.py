@@ -3,13 +3,22 @@ import streamlit as st
 # Apply custom CSS to hide Streamlit icons
 hide_streamlit_style = """
     <style>
+    
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
         
+        @font-face {
+            font-family: 'Savoye LET';
+            src: url('/font/Savoye LET Plain1.0.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+         
         /* Container for the tabs */
         .stTabs [data-baseweb="tab-list"] {
             gap: 2px;
+            font-family: 'Savoye LET', sans-serif;
         }
     
         /* Individual tab style */
@@ -22,20 +31,14 @@ hide_streamlit_style = """
             padding-top: 10px;
             padding-bottom: 10px;
             color: #4f4f4f;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Savoye LET', sans-serif;
         }
     
         /* Active tab style */
         .stTabs [aria-selected="true"] {
             background-color: #FFFFFF;
             color: #000000;
-        }
-        
-        @font-face {
-            font-family: 'Savoye LET';
-            src: url('/font/Savoye LET Plain1.0.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
+            font-family: 'Savoye LET', sans-serif;
         }
         
         body {
