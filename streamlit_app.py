@@ -69,9 +69,13 @@ with tabs[1]:
     testimonials = load_testimonials()
     if testimonials:
         for testimonial in reversed(testimonials):
-            st.write(f"**{testimonial['name']}**")
-            st.write(testimonial['testimonial'])
-            st.write("---")
+            if testimonial.get('anonymous'):
+                st.write(testimonial['testimonial'])
+                st.write("---")
+            else:
+                st.write(f"**{testimonial['name']}**")
+                st.write(testimonial['testimonial'])
+                st.write("---")
 
     # Testimonials Tab
     with st.expander("Testimonials", expanded=True):
@@ -81,6 +85,7 @@ with tabs[1]:
         # Create a form for submitting testimonials
         with st.form(key='testimonial_form'):
             name = st.text_input("Your Name")
+            anonymous = st.checkbox("Post Anonymously")
             testimonial_text = st.text_area("Your Testimonial", max_chars=1000)
             submit_button = st.form_submit_button(label='Submit')
 
@@ -88,7 +93,8 @@ with tabs[1]:
                 if name and testimonial_text:
                     new_testimonial = {
                         'name': name,
-                        'testimonial': testimonial_text
+                        'testimonial': testimonial_text,
+                        'anonymous': anonymous
                     }
                     save_testimonial(new_testimonial)
                     st.success("Thank you for your testimonial!")
