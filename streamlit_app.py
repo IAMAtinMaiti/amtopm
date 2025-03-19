@@ -102,7 +102,7 @@ with tabs[2]:
     # Display images in columns
     for i, image_path in enumerate(image_paths):
         with cols[i % num_columns]:
-            st.image(image_path, use_column_width=True)
+            st.image(image_path, use_container_width=True)
 
 # Event Timeline Tab
 with tabs[3]:
