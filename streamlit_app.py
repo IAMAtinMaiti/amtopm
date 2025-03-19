@@ -6,7 +6,7 @@ tabs = st.tabs(["Home", "Testimonials", "Photo Gallery", "Event Timeline"])
 # Home Tab
 with tabs[0]:
     st.header("Welcome to Our Wedding")
-    st.image("path_to_your_image.jpg", caption="Our Engagement Photo")
+    st.image("amtopm.jpeg", caption="Our Engagement Photo")
     st.write("We are delighted to invite you to our special day!")
 
 # Testimonials Tab
