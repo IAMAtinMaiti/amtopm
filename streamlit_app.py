@@ -29,18 +29,7 @@ hide_streamlit_style = """
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
-        
-        @font-face {
-            font-family: 'Savoye LET';
-            src: url('/font/Savoye LET Plain1.0.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-        
-        body {
-            font-family: 'Savoye LET', sans-serif;
-        }
-         
+
         /* Container for the tabs */
         .stTabs [data-baseweb="tab-list"] {
             gap: 2px;
@@ -56,12 +45,6 @@ hide_streamlit_style = """
             padding-top: 10px;
             padding-bottom: 10px;
             color: #4f4f4f;
-        }
-    
-        /* Active tab style */
-        .stTabs [aria-selected="true"] {
-            background-color: #FFFFFF;
-            color: #000000;
         }
         
         /* Move the sidebar to the right */
@@ -81,8 +64,8 @@ tabs = st.tabs(["Home", "Testimonials", "Photo Gallery", "Event Timeline"])
 
 # Home Tab
 with tabs[0]:
-    st.title("We are delighted to invite you to our special day!")
-    st.image("amtopm.jpeg", caption="Our Engagement Photo")
+    st.title("#AMmeetsPM")
+    st.image("amtopm.jpeg", caption="Save the Date")
 
     # RSVP Form
     with st.form(key='rsvp_form'):
