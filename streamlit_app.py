@@ -30,6 +30,17 @@ hide_streamlit_style = """
             background-color: #FFFFFF;
             color: #000000;
         }
+        
+        @font-face {
+            font-family: 'Savoye LET';
+            src: url('/font/Savoye LET Plain1.0.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        body {
+            font-family: 'Savoye LET', sans-serif;
+        }
     </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
