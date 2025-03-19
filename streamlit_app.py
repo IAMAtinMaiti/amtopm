@@ -79,10 +79,10 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 # Define the tabs
 tabs = st.tabs(["Home", "Testimonials", "Photo Gallery", "Event Timeline"])
 
-# Testimonials Tab
+# Home Tab
 with tabs[0]:
+    st.title("We are delighted to invite you to our special day!")
     st.image("amtopm.jpeg", caption="Our Engagement Photo")
-    st.write("We are delighted to invite you to our special day!")
 
     # RSVP Form
     with st.form(key='rsvp_form'):
@@ -103,7 +103,6 @@ with tabs[0]:
             st.write(f"Attending: {attending}")
             st.write(f"Number of Guests: {guests}")
             st.write(f"Dietary Requirements: {dietary_requirements}")
-
 
 # Testimonials Tab
 with tabs[1]:
