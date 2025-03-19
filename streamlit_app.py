@@ -18,11 +18,14 @@ hide_streamlit_style = """
             font-weight: normal;
             font-style: normal;
         }
+        
+        body {
+            font-family: 'Savoye LET', sans-serif;
+        }
          
         /* Container for the tabs */
         .stTabs [data-baseweb="tab-list"] {
             gap: 2px;
-            font-family: 'Savoye LET', sans-serif;
         }
     
         /* Individual tab style */
@@ -35,18 +38,12 @@ hide_streamlit_style = """
             padding-top: 10px;
             padding-bottom: 10px;
             color: #4f4f4f;
-            font-family: 'Savoye LET', sans-serif;
         }
     
         /* Active tab style */
         .stTabs [aria-selected="true"] {
             background-color: #FFFFFF;
             color: #000000;
-            font-family: 'Savoye LET', sans-serif;
-        }
-        
-        body {
-            font-family: 'Savoye LET', sans-serif;
         }
     </style>
 """
