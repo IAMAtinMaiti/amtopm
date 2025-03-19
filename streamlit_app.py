@@ -87,7 +87,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # Sidebar navigation
 st.sidebar.title("Navigation")
-selection = st.sidebar.title("Go to", ["Home", "Testimonials", "Gallery", "Event Timeline"])
+selection = st.sidebar.button("Go to", ["Home", "Testimonials", "Gallery", "Event Timeline"])
 
 # Display content based on selection
 if selection == "Home":
