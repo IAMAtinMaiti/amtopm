@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_timeline import st_timeline
 import json
 import os
 
@@ -161,5 +162,19 @@ with tabs[2]:
 with tabs[3]:
     st.header("Event Timeline")
     st.write("Join us for the following events:")
-    st.write("**Ceremony**: 3:00 PM at St. Mary's Church")
-    st.write("**Reception**: 6:00 PM at The Grand Ballroom")
+    st.set_page_config(page_title="Event Timeline", layout="wide")
+
+    # Title of the app
+    st.title("Interactive Timeline with Hover Popups")
+
+    # Timeline data
+    timeline_data = [
+        {'content': 'Event 1: Project Initiation', 'start': '2025-01-01'},
+        {'content': 'Event 2: Development Phase', 'start': '2025-02-01'},
+        {'content': 'Event 3: Testing and QA', 'start': '2025-03-01'},
+        {'content': 'Event 4: Deployment', 'start': '2025-04-01'},
+        {'content': 'Event 5: Post-Launch Review', 'start': '2025-05-01'},
+    ]
+
+    # Display the timeline
+    st_timeline(timeline_data, height=600)
