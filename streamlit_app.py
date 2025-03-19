@@ -4,6 +4,24 @@ import pandas as pd
 import json
 import os
 
+TESTIMONIALS_FILE = 'testimonials.json'
+
+# Function to load testimonials from the file
+def load_testimonials():
+    if os.path.exists(TESTIMONIALS_FILE):
+        with open(TESTIMONIALS_FILE, 'r') as file:
+            return json.load(file)
+    else:
+        return []
+
+# Function to save a new testimonial to the file
+def save_testimonial(testimonial):
+    testimonials = load_testimonials()
+    testimonials.append(testimonial)
+    with open(TESTIMONIALS_FILE, 'w') as file:
+        json.dump(testimonials, file, indent=4)
+
+
 # Apply custom CSS to hide Streamlit icons
 hide_streamlit_style = """
     <style>
@@ -72,21 +90,6 @@ selection = st.sidebar.radio("Go to", ["Home", "Testimonials", "Gallery", "Event
 if selection == "Home":
     st.title("Home")
     st.write("Welcome to our wedding event website!")
-elif selection == "Testimonials":
-    st.title("Testimonials")
-    st.write("Read what our guests have to say.")
-elif selection == "Gallery":
-    st.title("Gallery")
-    st.write("View photos from our special day.")
-elif selection == "Event Timeline":
-    st.title("Event Timeline")
-    st.write("See the schedule of events.")
-
-# Define the tabs
-tabs = st.tabs(["Home", "Testimonials", "Photo Gallery", "Event Timeline"])
-
-# Home Tab
-with tabs[0]:
     st.header("Welcome to Our Wedding")
     st.image("amtopm.jpeg", caption="Our Engagement Photo")
     st.write("We are delighted to invite you to our special day!")
@@ -111,26 +114,10 @@ with tabs[0]:
             st.write(f"Number of Guests: {guests}")
             st.write(f"Dietary Requirements: {dietary_requirements}")
 
-# File to store testimonials
-TESTIMONIALS_FILE = 'testimonials.json'
 
-# Function to load testimonials from the file
-def load_testimonials():
-    if os.path.exists(TESTIMONIALS_FILE):
-        with open(TESTIMONIALS_FILE, 'r') as file:
-            return json.load(file)
-    else:
-        return []
-
-# Function to save a new testimonial to the file
-def save_testimonial(testimonial):
-    testimonials = load_testimonials()
-    testimonials.append(testimonial)
-    with open(TESTIMONIALS_FILE, 'w') as file:
-        json.dump(testimonials, file, indent=4)
-
-# Testimonials Tab
-with tabs[1]:
+elif selection == "Testimonials":
+    st.title("Testimonials")
+    st.write("Read what our guests have to say.")
     st.header("Testimonials")
     st.write("Here's what our friends and family say about us:")
     st.write("- *'A match made in heaven!'* – Jane Doe")
@@ -169,8 +156,9 @@ with tabs[1]:
         else:
             st.write("No testimonials yet. Be the first to share!")
 
-# Photo Gallery Tab
-with tabs[2]:
+elif selection == "Gallery":
+    st.title("Gallery")
+    st.write("View photos from our special day.")
     st.header("Photo Gallery")
     st.write("A collection of our cherished moments:")
     # List of image paths
@@ -187,8 +175,9 @@ with tabs[2]:
         with cols[i % num_columns]:
             st.image(image_path, use_container_width=True)
 
-# Event Timeline Tab
-with tabs[3]:
+elif selection == "Event Timeline":
+    st.title("Event Timeline")
+    st.write("See the schedule of events.")
     st.header("Event Timeline")
     st.write("Join us for the following events:")
     fig = go.Figure()
