@@ -58,8 +58,15 @@ hide_streamlit_style = """
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
+st.set_page_config(
+    page_title="Wedding Event",
+    layout="wide",
+    initial_sidebar_state="expanded"  # Sidebar is always expanded
+)
+
+
 # Sidebar navigation
-st.sidebar.title("Navigation")
+st.sidebar.title("Navigation")# Set the page configuration
 selection = st.sidebar.radio("Go to", ["Home", "Testimonials", "Gallery", "Event Timeline"])
 
 # Display content based on selection
