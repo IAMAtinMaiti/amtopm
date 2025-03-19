@@ -1,14 +1,14 @@
 import streamlit as st
 
-# Custom CSS to hide the GitHub icon
-hide_github_icon = """
-<style>
-.css-1rs6os edgvbvh3 {
-    display: none;
-}
-</style>
+# Apply custom CSS to hide Streamlit icons
+hide_streamlit_style = """
+    <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+    </style>
 """
-st.markdown(hide_github_icon, unsafe_allow_html=True)
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # Event data
 
