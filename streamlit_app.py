@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 import pandas as pd
 import json
 import os
-from streamlit_option_menu import option_menu
+
 
 TESTIMONIALS_FILE = 'testimonials.json'
 
@@ -72,6 +72,9 @@ hide_streamlit_style = """
         .css-1d391kg .css-17eq0hr {
             background-color: orange;
         }
+        .stApp {
+            background-color: #D3D3D3;  /* Light gray color */
+        }
         
     </style>
 """
@@ -84,13 +87,11 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 # )
 
 # Sidebar navigation
-#selection = st.sidebar.selectbox(["Home", "Testimonials", "Gallery", "Event Timeline"])
-# selection = option_menu("Navigation",["Home", "Testimonials", "Gallery", "Event Timeline"],
-#                         menu_icon="cast", default_index=0, orientation="vertical")
-
+selection = st.sidebar.selectbox("Navigation", ["Home", "Testimonials", "Gallery", "Event Timeline"])
 
 # Display content based on selection
-with st.sidebar.title('Home'):
+if selection == "Home":
+    st.title("Home")
     st.write("Welcome to our wedding event website!")
     st.header("Welcome to Our Wedding")
     st.image("amtopm.jpeg", caption="Our Engagement Photo")
@@ -116,7 +117,8 @@ with st.sidebar.title('Home'):
             st.write(f"Number of Guests: {guests}")
             st.write(f"Dietary Requirements: {dietary_requirements}")
 
-with st.sidebar.title('Testimonials'):
+
+elif selection == "Testimonials":
     st.title("Testimonials")
     st.write("Read what our guests have to say.")
     st.header("Testimonials")
@@ -157,7 +159,7 @@ with st.sidebar.title('Testimonials'):
         else:
             st.write("No testimonials yet. Be the first to share!")
 
-with st.sidebar.title('Gallery'):
+elif selection == "Gallery":
     st.title("Gallery")
     st.write("View photos from our special day.")
     st.header("Photo Gallery")
@@ -176,8 +178,7 @@ with st.sidebar.title('Gallery'):
         with cols[i % num_columns]:
             st.image(image_path, use_container_width=True)
 
-
-with st.sidebar.title('Event Timeline'):
+elif selection == "Event Timeline":
     st.title("Event Timeline")
     st.write("See the schedule of events.")
     st.header("Event Timeline")
