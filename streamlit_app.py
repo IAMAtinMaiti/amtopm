@@ -45,11 +45,36 @@ hide_streamlit_style = """
             background-color: #FFFFFF;
             color: #000000;
         }
+        
+        /* Move the sidebar to the right */
+        .css-1d391kg {flex-direction: row-reverse;}
+
+        /* Set the sidebar background color to orange */
+        .css-1d391kg .css-17eq0hr {
+            background-color: orange;
+        }
+        
     </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-# Event data
+# Sidebar navigation
+st.sidebar.title("Navigation")
+selection = st.sidebar.radio("Go to", ["Home", "Testimonials", "Gallery", "Event Timeline"])
+
+# Display content based on selection
+if selection == "Home":
+    st.title("Home")
+    st.write("Welcome to our wedding event website!")
+elif selection == "Testimonials":
+    st.title("Testimonials")
+    st.write("Read what our guests have to say.")
+elif selection == "Gallery":
+    st.title("Gallery")
+    st.write("View photos from our special day.")
+elif selection == "Event Timeline":
+    st.title("Event Timeline")
+    st.write("See the schedule of events.")
 
 # Define the tabs
 tabs = st.tabs(["Home", "Testimonials", "Photo Gallery", "Event Timeline"])
