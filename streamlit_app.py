@@ -1,4 +1,6 @@
 import streamlit as st
+import json
+import os
 
 # Apply custom CSS to hide Streamlit icons
 hide_streamlit_style = """
@@ -79,12 +81,63 @@ with tabs[0]:
             st.write(f"Number of Guests: {guests}")
             st.write(f"Dietary Requirements: {dietary_requirements}")
 
+# File to store testimonials
+TESTIMONIALS_FILE = 'testimonials.json'
+
+# Function to load testimonials from the file
+def load_testimonials():
+    if os.path.exists(TESTIMONIALS_FILE):
+        with open(TESTIMONIALS_FILE, 'r') as file:
+            return json.load(file)
+    else:
+        return []
+
+# Function to save a new testimonial to the file
+def save_testimonial(testimonial):
+    testimonials = load_testimonials()
+    testimonials.append(testimonial)
+    with open(TESTIMONIALS_FILE, 'w') as file:
+        json.dump(testimonials, file, indent=4)
+
 # Testimonials Tab
 with tabs[1]:
     st.header("Testimonials")
     st.write("Here's what our friends and family say about us:")
     st.write("- *'A match made in heaven!'* – Jane Doe")
     st.write("- *'Two beautiful souls coming together.'* – John Smith")
+
+    # Testimonials Tab
+    with st.expander("Testimonials", expanded=True):
+        st.header("Share Your Testimonial")
+        st.write("We'd love to hear your thoughts. Please share your testimonial (up to 1000 words):")
+
+        # Create a form for submitting testimonials
+        with st.form(key='testimonial_form'):
+            name = st.text_input("Your Name")
+            testimonial_text = st.text_area("Your Testimonial", max_chars=1000)
+            submit_button = st.form_submit_button(label='Submit')
+
+            if submit_button:
+                if name and testimonial_text:
+                    new_testimonial = {
+                        'name': name,
+                        'testimonial': testimonial_text
+                    }
+                    save_testimonial(new_testimonial)
+                    st.success("Thank you for your testimonial!")
+                else:
+                    st.error("Please provide both your name and testimonial.")
+
+        # Display existing testimonials
+        st.subheader("What Others Are Saying")
+        testimonials = load_testimonials()
+        if testimonials:
+            for testimonial in reversed(testimonials):
+                st.write(f"**{testimonial['name']}**")
+                st.write(testimonial['testimonial'])
+                st.write("---")
+        else:
+            st.write("No testimonials yet. Be the first to share!")
 
 # Photo Gallery Tab
 with tabs[2]:
