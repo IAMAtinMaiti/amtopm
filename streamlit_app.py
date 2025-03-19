@@ -1,6 +1,16 @@
 import streamlit as st
 from streamlit_timeline import st_timeline
 
+# Custom CSS to hide the GitHub icon
+hide_github_icon = """
+<style>
+.css-1rs6os edgvbvh3 {
+    display: none;
+}
+</style>
+"""
+st.markdown(hide_github_icon, unsafe_allow_html=True)
+
 # Event data
 
 # Define the tabs
