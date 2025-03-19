@@ -90,9 +90,13 @@ with tabs[0]:
 # Testimonials Tab
 with tabs[1]:
     st.header("Testimonials")
-    st.write("Here's what our friends and family say about us:")
-    st.write("- *'A match made in heaven!'* – Jane Doe")
-    st.write("- *'Two beautiful souls coming together.'* – John Smith")
+
+    testimonials = load_testimonials()
+    if testimonials:
+        for testimonial in reversed(testimonials):
+            st.write(f"**{testimonial['name']}**")
+            st.write(testimonial['testimonial'])
+            st.write("---")
 
     # Testimonials Tab
     with st.expander("Testimonials", expanded=True):
@@ -115,17 +119,6 @@ with tabs[1]:
                     st.success("Thank you for your testimonial!")
                 else:
                     st.error("Please provide both your name and testimonial.")
-
-        # Display existing testimonials
-        st.subheader("What Others Are Saying")
-        testimonials = load_testimonials()
-        if testimonials:
-            for testimonial in reversed(testimonials):
-                st.write(f"**{testimonial['name']}**")
-                st.write(testimonial['testimonial'])
-                st.write("---")
-        else:
-            st.write("No testimonials yet. Be the first to share!")
 
 # Photo Gallery Tab
 with tabs[2]:
