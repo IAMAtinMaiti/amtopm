@@ -45,6 +45,26 @@ with tabs[0]:
     st.image("amtopm.jpeg", caption="Our Engagement Photo")
     st.write("We are delighted to invite you to our special day!")
 
+    # RSVP Form
+    with st.form(key='rsvp_form'):
+        st.subheader("RSVP Form")
+        name = st.text_input("Your Name")
+        email = st.text_input("Your Email")
+        attending = st.radio("Will you be attending?", ("Yes", "No"))
+        guests = st.number_input("Number of Guests", min_value=0, max_value=10, value=0)
+        dietary_requirements = st.text_area("Dietary Requirements (if any)")
+
+        # Submit button
+        submit_button = st.form_submit_button(label='Submit RSVP')
+
+        if submit_button:
+            # Process the form data (e.g., save to a database or send an email)
+            st.write(f"Thank you for your RSVP, {name}!")
+            st.write(f"Email: {email}")
+            st.write(f"Attending: {attending}")
+            st.write(f"Number of Guests: {guests}")
+            st.write(f"Dietary Requirements: {dietary_requirements}")
+
 # Testimonials Tab
 with tabs[1]:
     st.header("Testimonials")
