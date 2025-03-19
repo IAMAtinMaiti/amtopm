@@ -90,7 +90,19 @@ with tabs[1]:
 with tabs[2]:
     st.header("Photo Gallery")
     st.write("A collection of our cherished moments:")
-    st.image(["amtopm.jpeg", "amtopm.jpeg", "amtopm.jpeg"], width=300)
+    # List of image paths
+    image_paths = ["amtopm.jpeg", "amtopm.jpeg", "amtopm.jpeg", "amtopm.jpeg"]
+
+    # Define the number of columns
+    num_columns = 4
+
+    # Create columns
+    cols = st.columns(num_columns)
+
+    # Display images in columns
+    for i, image_path in enumerate(image_paths):
+        with cols[i % num_columns]:
+            st.image(image_path, use_column_width=True)
 
 # Event Timeline Tab
 with tabs[3]:
