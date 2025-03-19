@@ -72,10 +72,6 @@ hide_streamlit_style = """
         .css-1d391kg .css-17eq0hr {
             background-color: orange;
         }
-        .stApp {
-            background-color: #D3D3D3;  /* Light gray color */
-        }
-        
         [data-testid="stSidebar"] {
             background-color: #FFA500;  /* Orange color */
         }
