@@ -76,6 +76,11 @@ hide_streamlit_style = """
             background-color: #D3D3D3;  /* Light gray color */
         }
         
+        [data-testid="stSidebar"] {
+            background-color: #FFA500;  /* Orange color */
+        }
+        
+        
     </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
