@@ -162,7 +162,7 @@ with tabs[2]:
 with tabs[3]:
     st.header("Event Timeline")
     st.write("Join us for the following events:")
-    st.set_page_config(page_title="Event Timeline", layout="wide")
+    st.set_page_config(page_title="Interactive Timeline", layout="wide")
 
     # Title of the app
     st.title("Interactive Timeline with Hover Popups")
