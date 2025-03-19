@@ -1,1 +1,2 @@
-streamlit-vis-timeline
+pandas
+plotly

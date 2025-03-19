@@ -1,5 +1,6 @@
 import streamlit as st
-from streamlit_timeline import st_timeline
+import plotly.graph_objects as go
+import pandas as pd
 import json
 import os
 
@@ -162,19 +163,29 @@ with tabs[2]:
 with tabs[3]:
     st.header("Event Timeline")
     st.write("Join us for the following events:")
-    st.set_page_config(page_title="Interactive Timeline", layout="wide")
+    fig = go.Figure()
 
-    # Title of the app
-    st.title("Interactive Timeline with Hover Popups")
+    for i, row in df.iterrows():
+        fig.add_trace(go.Scatter(
+            x=[row["Date"], row["Date"]],
+            y=[i, i],
+            mode="lines+markers+text",
+            marker=dict(size=12, color="blue"),
+            line=dict(width=2, color="blue"),
+            text=row["Title"],
+            textposition="top center",
+            hoverinfo="text+name"
+        ))
 
-    # Timeline data
-    timeline_data = [
-        {'content': 'Event 1: Project Initiation', 'start': '2025-01-01'},
-        {'content': 'Event 2: Development Phase', 'start': '2025-02-01'},
-        {'content': 'Event 3: Testing and QA', 'start': '2025-03-01'},
-        {'content': 'Event 4: Deployment', 'start': '2025-04-01'},
-        {'content': 'Event 5: Post-Launch Review', 'start': '2025-05-01'},
-    ]
+    fig.update_layout(
+        title="Interactive Timeline",
+        xaxis_title="Date",
+        yaxis=dict(
+            tickvals=list(range(len(df))),
+            ticktext=df["Title"].tolist()
+        ),
+        showlegend=False,
+        hovermode="closest"
+    )
 
-    # Display the timeline
-    st_timeline(timeline_data, height=600)
+    st.plotly_chart(fig)
