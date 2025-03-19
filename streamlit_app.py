@@ -3,6 +3,7 @@ import plotly.graph_objects as go
 import pandas as pd
 import json
 import os
+from streamlit_option_menu import option_menu
 
 TESTIMONIALS_FILE = 'testimonials.json'
 
@@ -86,7 +87,9 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 # )
 
 # Sidebar navigation
-selection = st.sidebar.selectbox("Navigation", ["Home", "Testimonials", "Gallery", "Event Timeline"])
+#selection = st.sidebar.selectbox("Navigation", ["Home", "Testimonials", "Gallery", "Event Timeline"])
+selection = option_menu("Navigation", ["Home", "Testimonials", "Gallery", "Event Timeline"])
+
 
 # Display content based on selection
 if selection == "Home":
