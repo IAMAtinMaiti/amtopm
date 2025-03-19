@@ -76,12 +76,6 @@ hide_streamlit_style = """
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-# st.set_page_config(
-#     page_title="Wedding Event",
-#     layout="wide",
-#     initial_sidebar_state="expanded"  # Sidebar is always expanded
-# )
-
 # Define the tabs
 tabs = st.tabs(["Home", "Testimonials", "Photo Gallery", "Event Timeline"])
 
