@@ -4,7 +4,6 @@ import pandas as pd
 import json
 import os
 
-
 TESTIMONIALS_FILE = 'testimonials.json'
 
 # Function to load testimonials from the file
@@ -72,10 +71,6 @@ hide_streamlit_style = """
         .css-1d391kg .css-17eq0hr {
             background-color: orange;
         }
-        [data-testid="stSidebar"] {
-            background-color: #FFA500;  /* Orange color */
-        }
-        
         
     </style>
 """
@@ -87,14 +82,11 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 #     initial_sidebar_state="expanded"  # Sidebar is always expanded
 # )
 
-# Sidebar navigation
-selection = st.sidebar.selectbox("Navigation", ["Home", "Testimonials", "Gallery", "Event Timeline"])
+# Define the tabs
+tabs = st.tabs(["Home", "Testimonials", "Photo Gallery", "Event Timeline"])
 
-# Display content based on selection
-if selection == "Home":
-    st.title("Home")
-    st.write("Welcome to our wedding event website!")
-    st.header("Welcome to Our Wedding")
+# Testimonials Tab
+with tabs[0]:
     st.image("amtopm.jpeg", caption="Our Engagement Photo")
     st.write("We are delighted to invite you to our special day!")
 
@@ -119,19 +111,12 @@ if selection == "Home":
             st.write(f"Dietary Requirements: {dietary_requirements}")
 
 
-elif selection == "Testimonials":
-    st.write("Read what our guests have to say.")
-
-    # Display existing testimonials
-    st.subheader("What Others Are Saying")
-    testimonials = load_testimonials()
-    if testimonials:
-        for testimonial in reversed(testimonials):
-            st.write(f"**{testimonial['name']}**")
-            st.write(testimonial['testimonial'])
-            st.write("---")
-    else:
-        st.write("No testimonials yet. Be the first to share!")
+# Testimonials Tab
+with tabs[1]:
+    st.header("Testimonials")
+    st.write("Here's what our friends and family say about us:")
+    st.write("- *'A match made in heaven!'* – Jane Doe")
+    st.write("- *'Two beautiful souls coming together.'* – John Smith")
 
     # Testimonials Tab
     with st.expander("Testimonials", expanded=True):
@@ -155,10 +140,19 @@ elif selection == "Testimonials":
                 else:
                     st.error("Please provide both your name and testimonial.")
 
+        # Display existing testimonials
+        st.subheader("What Others Are Saying")
+        testimonials = load_testimonials()
+        if testimonials:
+            for testimonial in reversed(testimonials):
+                st.write(f"**{testimonial['name']}**")
+                st.write(testimonial['testimonial'])
+                st.write("---")
+        else:
+            st.write("No testimonials yet. Be the first to share!")
 
-elif selection == "Gallery":
-    st.title("Gallery")
-    st.write("View photos from our special day.")
+# Photo Gallery Tab
+with tabs[2]:
     st.header("Photo Gallery")
     st.write("A collection of our cherished moments:")
     # List of image paths
@@ -175,9 +169,8 @@ elif selection == "Gallery":
         with cols[i % num_columns]:
             st.image(image_path, use_container_width=True)
 
-elif selection == "Event Timeline":
-    st.title("Event Timeline")
-    st.write("See the schedule of events.")
+# Event Timeline Tab
+with tabs[3]:
     st.header("Event Timeline")
     st.write("Join us for the following events:")
     fig = go.Figure()
