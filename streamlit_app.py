@@ -21,8 +21,8 @@ with open(json_file_path, "w") as json_file:
     json.dump(unpickled_data, json_file, indent=4)
 
 gc = gspread.service_account(filename=json_file_path)
-sheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/1DTB-Wnlsv80p4hCz2z0Bl5c7VEK1-ScwkKTFm-042bU/edit?usp=sharing").sheet1
-
+sheet_testimonial = gc.open_by_url("https://docs.google.com/spreadsheets/d/1DTB-Wnlsv80p4hCz2z0Bl5c7VEK1-ScwkKTFm-042bU/edit?usp=sharing").get_worksheet(0)
+sheet_rsvp = gc.open_by_url("https://docs.google.com/spreadsheets/d/1DTB-Wnlsv80p4hCz2z0Bl5c7VEK1-ScwkKTFm-042bU/edit?usp=sharing").get_worksheet(1)
 
 # Function to save a new testimonial to the file
 def save_testimonial(testimonial):
@@ -31,7 +31,7 @@ def save_testimonial(testimonial):
     :param testimonial: dict
     :return:
     """
-    testimonials = sheet.get_all_records()
+    testimonials = sheet_testimonial.get_all_records()
 
     if len(testimonials) == 0:
 
@@ -40,7 +40,7 @@ def save_testimonial(testimonial):
         data_list = [_df.columns.tolist()] + _df.values.tolist()
 
         # Update the sheet
-        sheet.update(data_list)
+        sheet_testimonial.update(data_list)
 
     else:
         testimonials.append(testimonial)
@@ -50,10 +50,40 @@ def save_testimonial(testimonial):
         data_list = [_df.columns.tolist()] + _df.values.tolist()
 
         # Update the sheet
-        sheet.update(data_list)
+        sheet_testimonial.update(data_list)
 
     print("Google Sheet updated successfully!")
 
+# Function to save a new testimonial to the file
+def save_rsvp(rsvp):
+    """
+
+    :param rsvp:
+    :return:
+    """
+    rsvps = sheet_rsvp.get_all_records()
+    print(rsvps)
+
+    if len(rsvps) == 0:
+
+        _df = pd.DataFrame([rsvp])
+        # Convert DataFrame to a list of lists
+        data_list = [_df.columns.tolist()] + _df.values.tolist()
+
+        # Update the sheet
+        sheet_rsvp.update(data_list)
+
+    else:
+        rsvps.append(rsvp)
+        _df = pd.DataFrame(rsvps)
+
+        # Convert DataFrame to a list of lists
+        data_list = [_df.columns.tolist()] + _df.values.tolist()
+
+        # Update the sheet
+        sheet_rsvp.update(data_list)
+
+    print("Google Sheet updated successfully!")
 
 # Apply custom CSS to hide Streamlit icons
 hide_streamlit_style = """
@@ -90,27 +120,39 @@ with tabs[0]:
         with st.form(key='rsvp_form'):
             name = st.text_input("Your Name")
             email = st.text_input("Your Email")
-            attending = st.radio("Will you be attending?", ("Yes", "No"))
-            guests = st.number_input("Number of Guests", min_value=0, max_value=10, value=0)
-            dietary_requirements = st.text_area("Dietary Requirements (if any)")
+            st.text('Select the dates you can attend')
+            attending_23rd = st.checkbox('23rd November')
+            attending_24th = st.checkbox('24th November')
+            attending_26th = st.checkbox('26th November')
 
             # Submit button
             submit_button = st.form_submit_button(label='Submit RSVP')
 
             if submit_button:
                 # Process the form data (e.g., save to a database or send an email)
+                # Get current UTC time and convert to EST
+                current_time = datetime.now(est)
+                # Format as ISO 8601 string
+                iso_timestamp = current_time.isoformat()
+
+                rsvp_record = {
+                        'datetime': iso_timestamp,
+                        'name': name,
+                        'email': email,
+                        'attending_23rd': attending_23rd,
+                        'attending_24th': attending_24th,
+                        'attending_26th': attending_26th
+                    }
+                save_rsvp(rsvp_record)
                 st.write(f"Thank you for your RSVP, {name}!")
                 st.write(f"Email: {email}")
-                st.write(f"Attending: {attending}")
-                st.write(f"Number of Guests: {guests}")
-                st.write(f"Dietary Requirements: {dietary_requirements}")
 
 # Testimonials Tab
 with tabs[1]:
     st.header("Testimonials")
     st.write("---")
 
-    testimonials = sheet.get_all_records()
+    testimonials = sheet_testimonial.get_all_records()
     if testimonials:
         for testimonial in reversed(testimonials):
             if testimonial.get('anonymous') == 'TRUE':
