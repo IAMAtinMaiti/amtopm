@@ -155,21 +155,26 @@ with tabs[0]:
             submit_button = st.form_submit_button(label='Submit RSVP')
 
             if submit_button:
-                # Process the form data (e.g., save to a database or send an email)
-                # Get current UTC time and convert to EST
-                current_time = datetime.now(est).isoformat(timespec='milliseconds')
 
-                rsvp_record = {
-                    'datetime': current_time,
-                    'name': name,
-                    'email': email,
-                    'attending_23rd': attending_23rd,
-                    'attending_24th': attending_24th,
-                    'attending_26th': attending_26th
-                }
-                save_rsvp(rsvp_record)
-                st.write(f"Thank you for your RSVP, {name}!")
-                st.write(f"Email: {email}")
+                if name and email and (attending_23rd == 'TRUE' or attending_24th == 'TRUE' or attending_26th == 'TRUE'):
+                    # Process the form data (e.g., save to a database or send an email)
+                    # Get current UTC time and convert to EST
+                    current_time = datetime.now(est).isoformat(timespec='milliseconds')
+
+                    rsvp_record = {
+                        'datetime': current_time,
+                        'name': name,
+                        'email': email,
+                        'attending_23rd': attending_23rd,
+                        'attending_24th': attending_24th,
+                        'attending_26th': attending_26th
+                    }
+                    save_rsvp(rsvp_record)
+                    st.write(f"Thank you for your RSVP, {name}!")
+                    st.write(f"Email: {email}")
+
+                else:
+                    st.error("Please provide your name, email, and select at least one date")
 
     st.write("---")
     st.image("amtopm.jpeg", caption="Save the Date")
