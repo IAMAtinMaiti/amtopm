@@ -33,17 +33,26 @@ def save_testimonial(testimonial):
     """
     testimonials = sheet.get_all_records()
 
-    consolidated_testimonial = {}
-    for key, value in testimonials.items():
-        consolidated_testimonial[key] =  value.append(testimonials[key][0])
+    if len(testimonials) == 0:
 
-    _df = pd.DataFrame(consolidated_testimonial)
+        _df = pd.DataFrame(testimonial)
 
-    # Convert DataFrame to a list of lists
-    data_list = [_df.columns.tolist()] + _df.values.tolist()
+        # Convert DataFrame to a list of lists
+        data_list = [_df.columns.tolist()] + _df.values.tolist()
 
-    # Update the sheet
-    sheet.update(data_list)
+        # Update the sheet
+        sheet.update(data_list)
+
+    else:
+        testimonials.append(testimonial)
+
+        _df = pd.DataFrame(testimonials)
+
+        # Convert DataFrame to a list of lists
+        data_list = [_df.columns.tolist()] + _df.values.tolist()
+
+        # Update the sheet
+        sheet.update(data_list)
 
     print("Google Sheet updated successfully!")
 
@@ -95,7 +104,7 @@ with tabs[1]:
     testimonials = sheet.get_all_records()
     if testimonials:
         for testimonial in reversed(testimonials):
-            if testimonial.get('anonymous'):
+            if testimonial.get('anonymous') == 'FALSE':
                 st.write(testimonial['testimonial'])
                 st.write("---")
             else:
@@ -125,10 +134,10 @@ with tabs[1]:
 
                 if name and testimonial_text:
                     new_testimonial = {
-                        'datetime': [iso_timestamp],
-                        'name': [name],
-                        'testimonial': [testimonial_text],
-                        'anonymous': [anonymous]
+                        'datetime': iso_timestamp,
+                        'name': name,
+                        'testimonial': testimonial_text,
+                        'anonymous': anonymous
                     }
                     save_testimonial(new_testimonial)
                     st.success("Thank you for your testimonial!")
@@ -151,7 +160,7 @@ with tabs[2]:
     # Display images in columns
     for i, image_path in enumerate(image_paths):
         with cols[i % num_columns]:
-            st.image(image_path, use_container_width=True)
+            st.image(image_path)
 
 # Event Timeline Tab
 with tabs[3]:
