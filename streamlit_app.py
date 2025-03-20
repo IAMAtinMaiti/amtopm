@@ -111,7 +111,7 @@ hide_streamlit_style = """
         .container {
             padding: 10px 40px;
             position: relative;
-            background-color: inherit;
+            background-color: gray;
             width: 50%;
             margin: 10px 0;
         }
@@ -186,11 +186,10 @@ with tabs[1]:
 
     # Timeline content
     timeline_data = [
-        {"date": "January 2022", "title": "Project Started", "description": "Kickoff of the new project."},
-        {"date": "March 2022", "title": "First Milestone", "description": "Completed the first milestone."},
-        {"date": "June 2022", "title": "Phase 2", "description": "Transitioned to phase 2."},
-        {"date": "September 2022", "title": "Final Review", "description": "Completed the final review."},
-        {"date": "December 2022", "title": "Project Complete", "description": "Project completed successfully."}
+        {"date": "23rd November 2025: 10:00 AM IST", "title": "Gaye Holud (Haldi) - ঘাই হলুদ", "description": "A splash of sunshine", "attire": "Attire: Bright Shades"},
+        {"date": "23rd November 2025: 07:00 PM IST", "title": "Cocktail - ককটেল", "description": "Rising a toast to the beginning of forever", "attire": "Attire: Glitz & Glam"},
+        {"date": "24th November 2025: 07:00 PM IST", "title": "The Bengali Wedding - বাঙালি হিন্দু বিবাহ", "description": "Traditional bengali wedding", "attire": "Attire: Traditional"},
+        {"date": "26th November 2025: 07:00 PM IST", "title": "Bou Bhat - বউ ভাত", "description": "A post-wedding ritual hosted by the groom's family", "attire": "Attire: Bright Shades"},
     ]
 
     # Build the timeline
@@ -204,6 +203,7 @@ with tabs[1]:
             <div class="content">
                 <h3>{event['title']}</h3>
                 <p>{event['description']}</p>
+                <p>{event['attire']}</p>
             </div>
         </div>
         ''', unsafe_allow_html=True)
