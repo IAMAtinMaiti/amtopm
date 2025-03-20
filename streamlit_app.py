@@ -186,9 +186,9 @@ with tabs[1]:
 
     # Timeline content
     timeline_data = [
-        {"date": "23rd November 2025: 10:00 AM IST", "title": "Gaye Holud (Haldi) - ঘাই হলুদ", "description": "A splash of sunshine", "attire": "Attire: Bright Shades"},
+        {"date": "23rd November 2025: 10:00 AM IST", "title": "Haldi - ঘাই হলুদ", "description": "A splash of sunshine", "attire": "Attire: Bright Shades"},
         {"date": "23rd November 2025: 07:00 PM IST", "title": "Cocktail - ককটেল", "description": "Rising a toast to the beginning of forever", "attire": "Attire: Glitz & Glam"},
-        {"date": "24th November 2025: 07:00 PM IST", "title": "The Bengali Wedding - বাঙালি হিন্দু বিবাহ", "description": "Traditional bengali wedding", "attire": "Attire: Traditional"},
+        {"date": "24th November 2025: 07:00 PM IST", "title": "Bengali Wedding - বাঙালি হিন্দু বিবাহ", "description": "Traditional bengali wedding", "attire": "Attire: Traditional"},
         {"date": "26th November 2025: 07:00 PM IST", "title": "Bou Bhat - বউ ভাত", "description": "A post-wedding ritual hosted by the groom's family", "attire": "Attire: Bright Shades"},
     ]
 
