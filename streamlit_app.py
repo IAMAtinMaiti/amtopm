@@ -149,7 +149,7 @@ with tabs[1]:
 with tabs[2]:
     st.header("Photo Gallery")
     st.write("---")
-    st.write("A collection of our cherished moments:")
+    st.write("A collection of our cherished moments")
     # List of image paths
     image_paths = ["amtopm.jpeg", "amtopm.jpeg", "amtopm.jpeg", "amtopm.jpeg"]
 
