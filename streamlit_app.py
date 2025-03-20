@@ -151,12 +151,14 @@ with tabs[0]:
             attending_24th = st.checkbox('24th November - Kolkatta')
             attending_26th = st.checkbox('26th November - Mumbai')
 
+            print(attending_23rd, type(attending_23rd))
+
             # Submit button
             submit_button = st.form_submit_button(label='Submit RSVP')
 
             if submit_button:
 
-                if name and email and (attending_23rd == 'TRUE' or attending_24th == 'TRUE' or attending_26th == 'TRUE'):
+                if name and email and (attending_23rd or attending_24th or attending_26th):
                     # Process the form data (e.g., save to a database or send an email)
                     # Get current UTC time and convert to EST
                     current_time = datetime.now(est).isoformat(timespec='milliseconds')
