@@ -1,5 +1,4 @@
 import streamlit as st
-import plotly.graph_objects as go
 import pandas as pd
 import json
 import pytz
@@ -9,33 +8,34 @@ import pickle
 
 # Define Eastern Time Zone
 est = pytz.timezone("America/New_York")
-json_file_path = "amtopm-454300-177900f8acb2.json"
-unpickled_data = {}
+json_file_path = "amtopm-gs-secret.json"
+json_data = {}
 
 # Unpickle (deserialize) the data
 with open("data.pkl", "rb") as pickle_file:
-    unpickled_data = pickle.load(pickle_file)
+    json_data = pickle.load(pickle_file)
 
 # Write dictionary to JSON file
 with open(json_file_path, "w") as json_file:
-    json.dump(unpickled_data, json_file, indent=4)
+    json.dump(json_data, json_file, indent=2)
 
 gc = gspread.service_account(filename=json_file_path)
 sheet_testimonial = gc.open_by_url("https://docs.google.com/spreadsheets/d/1DTB-Wnlsv80p4hCz2z0Bl5c7VEK1-ScwkKTFm-042bU/edit?usp=sharing").get_worksheet(0)
 sheet_rsvp = gc.open_by_url("https://docs.google.com/spreadsheets/d/1DTB-Wnlsv80p4hCz2z0Bl5c7VEK1-ScwkKTFm-042bU/edit?usp=sharing").get_worksheet(1)
 
 # Function to save a new testimonial to the file
-def save_testimonial(testimonial):
+def save_testimonial(record):
     """
 
-    :param testimonial: dict
+    :param record: dict
     :return:
     """
-    testimonials = sheet_testimonial.get_all_records()
+    expected_header = ["datetime", "name", "testimonial", "anonymous"]
+    records = sheet_testimonial.get_all_records(expected_headers=expected_header)
 
     if len(testimonials) == 0:
 
-        _df = pd.DataFrame([testimonial])
+        _df = pd.DataFrame([record])
         # Convert DataFrame to a list of lists
         data_list = [_df.columns.tolist()] + _df.values.tolist()
 
@@ -43,8 +43,8 @@ def save_testimonial(testimonial):
         sheet_testimonial.update(data_list)
 
     else:
-        testimonials.append(testimonial)
-        _df = pd.DataFrame(testimonials)
+        records.append(record)
+        _df = pd.DataFrame(records)
 
         # Convert DataFrame to a list of lists
         data_list = [_df.columns.tolist()] + _df.values.tolist()
@@ -54,14 +54,15 @@ def save_testimonial(testimonial):
 
     print("Google Sheet updated successfully!")
 
-# Function to save a new testimonial to the file
+# Function to save a new rsvp to the file
 def save_rsvp(rsvp):
     """
 
     :param rsvp:
     :return:
     """
-    rsvps = sheet_rsvp.get_all_records()
+    expected_header = ["datetime", "name", "email", "attending_23rd", "attending_24th", "attending_26th"]
+    rsvps = sheet_rsvp.get_all_records(expected_headers=expected_header)
     print(rsvps)
 
     if len(rsvps) == 0:
@@ -162,12 +163,10 @@ with tabs[0]:
             if submit_button:
                 # Process the form data (e.g., save to a database or send an email)
                 # Get current UTC time and convert to EST
-                current_time = datetime.now(est)
-                # Format as ISO 8601 string
-                iso_timestamp = current_time.isoformat()
+                current_time = datetime.now(est).isoformat(timespec='milliseconds')
 
                 rsvp_record = {
-                        'datetime': iso_timestamp,
+                        'datetime': current_time,
                         'name': name,
                         'email': email,
                         'attending_23rd': attending_23rd,
@@ -240,14 +239,11 @@ with tabs[2]:
             if submit_button:
 
                 # Get current UTC time and convert to EST
-                current_time = datetime.now(est)
-
-                # Format as ISO 8601 string
-                iso_timestamp = current_time.isoformat()
+                current_time = datetime.now(est).isoformat(timespec='milliseconds')
 
                 if name and testimonial_text:
                     new_testimonial = {
-                        'datetime': iso_timestamp,
+                        'datetime': current_time,
                         'name': name,
                         'testimonial': testimonial_text,
                         'anonymous': anonymous
