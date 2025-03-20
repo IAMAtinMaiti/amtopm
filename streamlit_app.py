@@ -62,8 +62,7 @@ hide_streamlit_style = """
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
-        [data-testid="stDecoration"] {display: none;}
-        [data-testid="stToolbar"] {display: none;}
+        [data-testid="manage-app-button"] {display: none;}
         
     </style>
 """
