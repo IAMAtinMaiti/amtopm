@@ -2,26 +2,44 @@ import streamlit as st
 import plotly.graph_objects as go
 import pandas as pd
 import json
-import os
+import pytz
 from datetime import datetime
 import gspread
+import pickle
 
-TESTIMONIALS_FILE = 'testimonials_1.json'
+# Define Eastern Time Zone
+est = pytz.timezone("America/New_York")
+json_file_path = "amtopm-454300-177900f8acb2.json"
+unpickled_data = {}
 
-# Function to load testimonials from the file
-def load_testimonials():
-    if os.path.exists(TESTIMONIALS_FILE):
-        with open(TESTIMONIALS_FILE, 'r') as file:
-            return json.load(file)
-    else:
-        return []
+# Unpickle (deserialize) the data
+with open("data.pkl", "rb") as pickle_file:
+    unpickled_data = pickle.load(pickle_file)
+
+# Write dictionary to JSON file
+with open(json_file_path, "w") as json_file:
+    json.dump(unpickled_data, json_file, indent=4)
+
+gc = gspread.service_account(filename=json_file)
+sheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/1DTB-Wnlsv80p4hCz2z0Bl5c7VEK1-ScwkKTFm-042bU/edit?usp=sharing").sheet1
+
 
 # Function to save a new testimonial to the file
 def save_testimonial(testimonial):
-    testimonials = load_testimonials()
-    testimonials.append(testimonial)
-    with open(TESTIMONIALS_FILE, 'w') as file:
-        json.dump(testimonials, file, indent=4)
+    """
+
+    :param testimonial: dict
+    :return:
+    """
+    _df = pd.DataFrame(data)
+
+    # Convert DataFrame to a list of lists
+    data_list = [_df.columns.tolist()] + _df.values.tolist()
+
+    # Update the sheet
+    sheet.update(data_list)
+
+    print("Google Sheet updated successfully!")
 
 
 # Apply custom CSS to hide Streamlit icons
@@ -68,7 +86,7 @@ with tabs[0]:
 with tabs[1]:
     st.header("Testimonials")
 
-    testimonials = load_testimonials()
+    testimonials = sheet.get_all_records()
     if testimonials:
         for testimonial in reversed(testimonials):
             if testimonial.get('anonymous'):
@@ -92,39 +110,24 @@ with tabs[1]:
             submit_button = st.form_submit_button(label='Submit')
 
             if submit_button:
+
+                # Get current UTC time and convert to EST
+                current_time = datetime.now(est)
+
+                # Format as ISO 8601 string
+                iso_timestamp = current_time.isoformat()
+
                 if name and testimonial_text:
                     new_testimonial = {
-                        'name': name,
-                        'testimonial': testimonial_text,
-                        'anonymous': anonymous
+                        'datetime': [iso_timestamp],
+                        'name': [name],
+                        'testimonial': [testimonial_text],
+                        'anonymous': [anonymous]
                     }
                     save_testimonial(new_testimonial)
                     st.success("Thank you for your testimonial!")
                 else:
                     st.error("Please provide both your name and testimonial.")
-
-        # Authenticate with Google Sheets
-        gc = gspread.service_account(filename="amtopm-454300-1e40ced55f20.json")
-
-        # Open the Google Sheet (use the correct name or URL)
-        sheet = gc.open(
-            "https://docs.google.com/spreadsheets/d/1DTB-Wnlsv80p4hCz2z0Bl5c7VEK1-ScwkKTFm-042bU/edit?usp=sharing").testimonial
-
-        # Create a sample DataFrame
-        data = new_testimonial = {
-                        'name': [name],
-                        'testimonial': [testimonial_text],
-                        'anonymous': [anonymous]
-                    }
-        df = pd.DataFrame(data)
-
-        # Convert DataFrame to a list of lists
-        data_list = [df.columns.tolist()] + df.values.tolist()
-
-        # Update the sheet
-        sheet.update(data_list)
-
-        print("Google Sheet updated successfully!")
 
 # Photo Gallery Tab
 with tabs[2]:
