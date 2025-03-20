@@ -4,8 +4,9 @@ import pandas as pd
 import json
 import os
 from datetime import datetime
+import gspread
 
-TESTIMONIALS_FILE = 'testimonials.json'
+TESTIMONIALS_FILE = 'testimonials_1.json'
 
 # Function to load testimonials from the file
 def load_testimonials():
@@ -101,6 +102,29 @@ with tabs[1]:
                     st.success("Thank you for your testimonial!")
                 else:
                     st.error("Please provide both your name and testimonial.")
+
+        # Authenticate with Google Sheets
+        gc = gspread.service_account(filename="amtopm-454300-1e40ced55f20.json")
+
+        # Open the Google Sheet (use the correct name or URL)
+        sheet = gc.open(
+            "https://docs.google.com/spreadsheets/d/1DTB-Wnlsv80p4hCz2z0Bl5c7VEK1-ScwkKTFm-042bU/edit?usp=sharing").testimonial
+
+        # Create a sample DataFrame
+        data = new_testimonial = {
+                        'name': [name],
+                        'testimonial': [testimonial_text],
+                        'anonymous': [anonymous]
+                    }
+        df = pd.DataFrame(data)
+
+        # Convert DataFrame to a list of lists
+        data_list = [df.columns.tolist()] + df.values.tolist()
+
+        # Update the sheet
+        sheet.update(data_list)
+
+        print("Google Sheet updated successfully!")
 
 # Photo Gallery Tab
 with tabs[2]:
