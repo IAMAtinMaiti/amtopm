@@ -111,7 +111,7 @@ hide_streamlit_style = """
         .container {
             padding: 10px 40px;
             position: relative;
-            background-color: gray;
+            background-color: inherit;
             width: 50%;
             margin: 10px 0;
         }
@@ -141,23 +141,20 @@ st.set_page_config(page_title="#AMmeetsPM")
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # Define the tabs
-tabs = st.tabs(["Home", "Event Timeline", "Testimonials", "Photo Gallery"])
+tabs = st.tabs(["RSVP", "Event Timeline", "Testimonials", "Photo Gallery"])
 
 # Home Tab
 with tabs[0]:
     st.header("RSVP to #AMmeetsPM")
-    st.write("---")
-    st.image("amtopm.jpeg", caption="Save the Date")
-
     # RSVP Form
-    with st.expander("RSVP", expanded=True):
+    with st.expander("RSVP", expanded=False):
         with st.form(key='rsvp_form'):
             name = st.text_input("Your Name")
             email = st.text_input("Your Email")
             st.write('Select the dates you can attend')
-            attending_23rd = st.checkbox('23rd November')
-            attending_24th = st.checkbox('24th November')
-            attending_26th = st.checkbox('26th November')
+            attending_23rd = st.checkbox('23rd November - Kolkatta')
+            attending_24th = st.checkbox('24th November - Kolkatta')
+            attending_26th = st.checkbox('26th November - Mumbai')
 
             # Submit button
             submit_button = st.form_submit_button(label='Submit RSVP')
@@ -168,16 +165,21 @@ with tabs[0]:
                 current_time = datetime.now(est).isoformat(timespec='milliseconds')
 
                 rsvp_record = {
-                        'datetime': current_time,
-                        'name': name,
-                        'email': email,
-                        'attending_23rd': attending_23rd,
-                        'attending_24th': attending_24th,
-                        'attending_26th': attending_26th
-                    }
+                    'datetime': current_time,
+                    'name': name,
+                    'email': email,
+                    'attending_23rd': attending_23rd,
+                    'attending_24th': attending_24th,
+                    'attending_26th': attending_26th
+                }
                 save_rsvp(rsvp_record)
                 st.write(f"Thank you for your RSVP, {name}!")
                 st.write(f"Email: {email}")
+
+    st.write("---")
+    st.image("amtopm.jpeg", caption="Save the Date")
+
+
 
 # Event Timeline Tab
 with tabs[1]:
