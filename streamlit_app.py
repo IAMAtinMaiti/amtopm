@@ -104,7 +104,7 @@ with tabs[1]:
     testimonials = sheet.get_all_records()
     if testimonials:
         for testimonial in reversed(testimonials):
-            if testimonial.get('anonymous') == 'FALSE':
+            if testimonial.get('anonymous') == 'TRUE':
                 st.write(testimonial['testimonial'])
                 st.write("---")
             else:
