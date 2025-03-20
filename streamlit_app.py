@@ -31,7 +31,13 @@ def save_testimonial(testimonial):
     :param testimonial: dict
     :return:
     """
-    _df = pd.DataFrame(testimonial)
+    testimonials = sheet.get_all_records()
+
+    consolidated_testimonial = {}
+    for key, value in testimonials.items():
+        consolidated_testimonial[key] =  value.append(testimonials[key][0])
+
+    _df = pd.DataFrame(consolidated_testimonial)
 
     # Convert DataFrame to a list of lists
     data_list = [_df.columns.tolist()] + _df.values.tolist()
