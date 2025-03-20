@@ -94,7 +94,7 @@ hide_streamlit_style = """
         #MainMenu {visibility: hidden;}
         header {visibility: hidden;}
         .timeline {
-            position: relative;
+            position: right;
             max-width: 900px;
             margin: 0 auto;
         }
@@ -109,17 +109,12 @@ hide_streamlit_style = """
             margin-left: -3px;
         }
         .container {
+            position: center;
             padding: 10px 40px;
             position: relative;
             background-color: inherit;
             width: 50%;
             margin: 10px 0;
-        }
-        .container.left {
-            left: 0;
-        }
-        .container.right {
-            left: 50%;
         }
         .date {
             position: center;
@@ -198,9 +193,8 @@ with tabs[1]:
     st.markdown('<div class="timeline">', unsafe_allow_html=True)
 
     for i, event in enumerate(timeline_data):
-        position = "left" if i % 2 == 0 else "right"
         st.markdown(f'''
-        <div class="container {position}">
+        <div>
             <div class="date">{event['date']}</div>
             <div class="content">
                 <h3>{event['title']}</h3>
