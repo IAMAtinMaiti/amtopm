@@ -35,7 +35,7 @@ def save_testimonial(testimonial):
 
     if len(testimonials) == 0:
 
-        _df = pd.DataFrame(testimonial)
+        _df = pd.DataFrame([testimonial])
 
         # Convert DataFrame to a list of lists
         data_list = [_df.columns.tolist()] + _df.values.tolist()
