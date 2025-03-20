@@ -76,7 +76,7 @@ tabs = st.tabs(["Home", "Testimonials", "Photo Gallery", "Event Timeline"])
 
 # Home Tab
 with tabs[0]:
-    st.title("#AMmeetsPM")
+    st.header("RSVP to #AMmeetsPM")
     st.write("---")
     st.image("amtopm.jpeg", caption="Save the Date")
 
