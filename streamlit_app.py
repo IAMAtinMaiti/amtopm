@@ -91,17 +91,48 @@ hide_streamlit_style = """
     
         #MainMenu {visibility: hidden;}
         header {visibility: hidden;}
-        footer {visibility: hidden;}
-        footer:after {
-                content:'goodbye'; 
-                visibility: visible;
-                display: block;
-                position: relative;
-                #background-color: red;
-                padding: 5px;
-                top: 2px;
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
         }
-        [data-testid="stDecoration"] {visibility: hidden;}
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #3e3e3e;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        .container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            margin: 10px 0;
+        }
+        .container.left {
+            left: 0;
+        }
+        .container.right {
+            left: 50%;
+        }
+        .date {
+            position: center;
+            top: 100%;
+            transform: translateY(-20%);
+            padding: 5px 10px;
+            background-color: #333;
+            color: white;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .content {
+            padding: 20px;
+            border-radius: 6px;
+        }
     </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
@@ -219,37 +250,29 @@ with tabs[3]:
     st.header("Event Timeline")
     st.write("---")
     st.write("Join us for the following events")
-    fig = go.Figure()
+    # Timeline content
+    timeline_data = [
+        {"date": "January 2022", "title": "Project Started", "description": "Kickoff of the new project."},
+        {"date": "March 2022", "title": "First Milestone", "description": "Completed the first milestone."},
+        {"date": "June 2022", "title": "Phase 2", "description": "Transitioned to phase 2."},
+        {"date": "September 2022", "title": "Final Review", "description": "Completed the final review."},
+        {"date": "December 2022", "title": "Project Complete", "description": "Project completed successfully."}
+    ]
 
-    data = {
-        "Title": ["Event 1", "Event 2", "Event 3"],
-        "Description": ["Description of Event 1", "Description of Event 2", "Description of Event 3"],
-        "Date": ["2025-01-01", "2025-02-01", "2025-03-01"]
-    }
-    df = pd.DataFrame(data)
-    df["Date"] = pd.to_datetime(df["Date"])
+    # Build the timeline
+    st.markdown('<div class="timeline">', unsafe_allow_html=True)
 
-    for i, row in df.iterrows():
-        fig.add_trace(go.Scatter(
-            x=[row["Date"], row["Date"]],
-            y=[i, i],
-            mode="lines+markers+text",
-            marker=dict(size=12, color="blue"),
-            line=dict(width=2, color="blue"),
-            text=row["Title"],
-            textposition="top center",
-            hoverinfo="text+name"
-        ))
+    for i, event in enumerate(timeline_data):
+        position = "left" if i % 2 == 0 else "right"
+        st.markdown(f'''
+        <div class="container {position}">
+            <div class="date">{event['date']}</div>
+            <div class="content">
+                <h3>{event['title']}</h3>
+                <p>{event['description']}</p>
+            </div>
+        </div>
+        ''', unsafe_allow_html=True)
 
-    fig.update_layout(
-        title="Interactive Timeline",
-        xaxis_title="Date",
-        yaxis=dict(
-            tickvals=list(range(len(df))),
-            ticktext=df["Title"].tolist()
-        ),
-        showlegend=False,
-        hovermode="closest"
-    )
+    st.markdown('</div>', unsafe_allow_html=True)
 
-    st.plotly_chart(fig)
