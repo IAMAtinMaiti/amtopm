@@ -20,7 +20,7 @@ with open("data.pkl", "rb") as pickle_file:
 with open(json_file_path, "w") as json_file:
     json.dump(unpickled_data, json_file, indent=4)
 
-gc = gspread.service_account(filename=json_file)
+gc = gspread.service_account(filename=json_file_path)
 sheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/1DTB-Wnlsv80p4hCz2z0Bl5c7VEK1-ScwkKTFm-042bU/edit?usp=sharing").sheet1
 
 
