@@ -168,7 +168,7 @@ with tabs[2]:
 with tabs[3]:
     st.header("Event Timeline")
     st.write("---")
-    st.write("Join us for the following events:")
+    st.write("Join us for the following events")
     fig = go.Figure()
 
     data = {
