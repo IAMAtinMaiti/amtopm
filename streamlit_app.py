@@ -9,6 +9,7 @@ import pickle
 # Define Eastern Time Zone
 est = pytz.timezone("America/New_York")
 json_file_path = "amtopm-gs-secret.json"
+sheet_url= "https://docs.google.com/spreadsheets/d/1DTB-Wnlsv80p4hCz2z0Bl5c7VEK1-ScwkKTFm-042bU/edit?usp=sharing"
 json_data = {}
 
 # Unpickle (deserialize) the data
@@ -20,8 +21,8 @@ with open(json_file_path, "w") as json_file:
     json.dump(json_data, json_file, indent=2)
 
 gc = gspread.service_account(filename=json_file_path)
-sheet_testimonial = gc.open_by_url("https://docs.google.com/spreadsheets/d/1DTB-Wnlsv80p4hCz2z0Bl5c7VEK1-ScwkKTFm-042bU/edit?usp=sharing").get_worksheet(0)
-sheet_rsvp = gc.open_by_url("https://docs.google.com/spreadsheets/d/1DTB-Wnlsv80p4hCz2z0Bl5c7VEK1-ScwkKTFm-042bU/edit?usp=sharing").get_worksheet(1)
+sheet_testimonial = gc.open_by_url(sheet_url).get_worksheet(0)
+sheet_rsvp = gc.open_by_url(sheet_url).get_worksheet(1)
 
 # Function to save a new testimonial to the file
 def save_testimonial(record):
@@ -30,8 +31,8 @@ def save_testimonial(record):
     :param record: dict
     :return:
     """
-    expected_header = ["datetime", "name", "testimonial", "anonymous"]
-    records = sheet_testimonial.get_all_records(expected_headers=expected_header)
+    sheet_testimonial = gc.open_by_url(sheet_url).get_worksheet(0)
+    records = sheet_testimonial.get_all_records()
 
     if len(testimonials) == 0:
 
@@ -61,8 +62,8 @@ def save_rsvp(rsvp):
     :param rsvp:
     :return:
     """
-    expected_header = ["datetime", "name", "email", "attending_23rd", "attending_24th", "attending_26th"]
-    rsvps = sheet_rsvp.get_all_records(expected_headers=expected_header)
+    sheet_rsvp = gc.open_by_url(sheet_url).get_worksheet(1)
+    rsvps = sheet_rsvp.get_all_records()
     print(rsvps)
 
     if len(rsvps) == 0:
@@ -259,7 +260,7 @@ with tabs[3]:
     st.write("---")
     st.write("A collection of our cherished moments")
     # List of image paths
-    image_paths = ["amtopm.jpeg", "amtopm.jpeg", "amtopm.jpeg", "amtopm.jpeg"]
+    image_paths = ["img1.jpg", "img2.jpg", "img4.jpg", "img5.jpg"]
 
     # Define the number of columns
     num_columns = 2
