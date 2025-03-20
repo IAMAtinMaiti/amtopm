@@ -77,6 +77,7 @@ tabs = st.tabs(["Home", "Testimonials", "Photo Gallery", "Event Timeline"])
 # Home Tab
 with tabs[0]:
     st.title("#AMmeetsPM")
+    st.write("---")
     st.image("amtopm.jpeg", caption="Save the Date")
 
     # RSVP Form
@@ -102,6 +103,7 @@ with tabs[0]:
 # Testimonials Tab
 with tabs[1]:
     st.header("Testimonials")
+    st.write("---")
 
     testimonials = sheet.get_all_records()
     if testimonials:
@@ -149,6 +151,7 @@ with tabs[1]:
 # Photo Gallery Tab
 with tabs[2]:
     st.header("Photo Gallery")
+    st.write("---")
     st.write("A collection of our cherished moments:")
     # List of image paths
     image_paths = ["amtopm.jpeg", "amtopm.jpeg", "amtopm.jpeg", "amtopm.jpeg"]
@@ -167,6 +170,7 @@ with tabs[2]:
 # Event Timeline Tab
 with tabs[3]:
     st.header("Event Timeline")
+    st.write("---")
     st.write("Join us for the following events:")
     fig = go.Figure()
 
