@@ -31,7 +31,7 @@ def save_testimonial(testimonial):
     :param testimonial: dict
     :return:
     """
-    _df = pd.DataFrame(data)
+    _df = pd.DataFrame(testimonial)
 
     # Convert DataFrame to a list of lists
     data_list = [_df.columns.tolist()] + _df.values.tolist()
