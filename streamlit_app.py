@@ -137,6 +137,7 @@ hide_streamlit_style = """
         }
     </style>
 """
+st.set_page_config(page_title="#AMmeetsPM")
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # Define the tabs
