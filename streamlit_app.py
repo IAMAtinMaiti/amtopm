@@ -138,7 +138,7 @@ hide_streamlit_style = """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # Define the tabs
-tabs = st.tabs(["Home", "Testimonials", "Photo Gallery", "Event Timeline"])
+tabs = st.tabs(["Home", "Event Timeline", "Testimonials", "Photo Gallery"])
 
 # Home Tab
 with tabs[0]:
@@ -151,7 +151,7 @@ with tabs[0]:
         with st.form(key='rsvp_form'):
             name = st.text_input("Your Name")
             email = st.text_input("Your Email")
-            st.text('Select the dates you can attend')
+            st.write('Select the dates you can attend')
             attending_23rd = st.checkbox('23rd November')
             attending_24th = st.checkbox('24th November')
             attending_26th = st.checkbox('26th November')
@@ -178,8 +178,39 @@ with tabs[0]:
                 st.write(f"Thank you for your RSVP, {name}!")
                 st.write(f"Email: {email}")
 
-# Testimonials Tab
+# Event Timeline Tab
 with tabs[1]:
+    st.header("Event Timeline")
+    st.write("---")
+
+    # Timeline content
+    timeline_data = [
+        {"date": "January 2022", "title": "Project Started", "description": "Kickoff of the new project."},
+        {"date": "March 2022", "title": "First Milestone", "description": "Completed the first milestone."},
+        {"date": "June 2022", "title": "Phase 2", "description": "Transitioned to phase 2."},
+        {"date": "September 2022", "title": "Final Review", "description": "Completed the final review."},
+        {"date": "December 2022", "title": "Project Complete", "description": "Project completed successfully."}
+    ]
+
+    # Build the timeline
+    st.markdown('<div class="timeline">', unsafe_allow_html=True)
+
+    for i, event in enumerate(timeline_data):
+        position = "left" if i % 2 == 0 else "right"
+        st.markdown(f'''
+        <div class="container {position}">
+            <div class="date">{event['date']}</div>
+            <div class="content">
+                <h3>{event['title']}</h3>
+                <p>{event['description']}</p>
+            </div>
+        </div>
+        ''', unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# Testimonials Tab
+with tabs[2]:
     st.header("Testimonials")
     st.write("---")
 
@@ -227,7 +258,7 @@ with tabs[1]:
                     st.error("Please provide both your name and testimonial.")
 
 # Photo Gallery Tab
-with tabs[2]:
+with tabs[3]:
     st.header("Photo Gallery")
     st.write("---")
     st.write("A collection of our cherished moments")
@@ -244,35 +275,4 @@ with tabs[2]:
     for i, image_path in enumerate(image_paths):
         with cols[i % num_columns]:
             st.image(image_path)
-
-# Event Timeline Tab
-with tabs[3]:
-    st.header("Event Timeline")
-    st.write("---")
-    st.write("Join us for the following events")
-    # Timeline content
-    timeline_data = [
-        {"date": "January 2022", "title": "Project Started", "description": "Kickoff of the new project."},
-        {"date": "March 2022", "title": "First Milestone", "description": "Completed the first milestone."},
-        {"date": "June 2022", "title": "Phase 2", "description": "Transitioned to phase 2."},
-        {"date": "September 2022", "title": "Final Review", "description": "Completed the final review."},
-        {"date": "December 2022", "title": "Project Complete", "description": "Project completed successfully."}
-    ]
-
-    # Build the timeline
-    st.markdown('<div class="timeline">', unsafe_allow_html=True)
-
-    for i, event in enumerate(timeline_data):
-        position = "left" if i % 2 == 0 else "right"
-        st.markdown(f'''
-        <div class="container {position}">
-            <div class="date">{event['date']}</div>
-            <div class="content">
-                <h3>{event['title']}</h3>
-                <p>{event['description']}</p>
-            </div>
-        </div>
-        ''', unsafe_allow_html=True)
-
-    st.markdown('</div>', unsafe_allow_html=True)
 
