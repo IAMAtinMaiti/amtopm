@@ -137,7 +137,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 def authenticate(password):
     # Define valid credentials
-    return password == '#ammeetspm_242025'
+    return password == '#ammeetspm24NOV2025'
 
 
 def login_page():
@@ -166,7 +166,7 @@ if __name__ == "__main__":
 
         # Home Tab
         with tabs[0]:
-            st.header("RSVP to #AMmeetsPM")
+            st.header("Save the Date! 24th November 2025")
             # RSVP Form
             with st.expander("RSVP", expanded=False):
                 with st.form(key='rsvp_form'):
