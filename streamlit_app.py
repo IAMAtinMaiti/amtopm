@@ -135,145 +135,179 @@ hide_streamlit_style = """
 st.set_page_config(page_title="#AMmeetsPM")
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-# Define the tabs
-tabs = st.tabs(["RSVP", "Event Timeline", "Testimonials", "Photo Gallery"])
-
-# Home Tab
-with tabs[0]:
-    st.header("RSVP to #AMmeetsPM")
-    # RSVP Form
-    with st.expander("RSVP", expanded=False):
-        with st.form(key='rsvp_form'):
-            name = st.text_input("Your Name")
-            email = st.text_input("Your Email")
-            st.write('Select the dates you can attend')
-            attending_23rd = st.checkbox('23rd November - Kolkatta')
-            attending_24th = st.checkbox('24th November - Kolkatta')
-            attending_26th = st.checkbox('26th November - Mumbai')
-
-            print(attending_23rd, type(attending_23rd))
-
-            # Submit button
-            submit_button = st.form_submit_button(label='Submit RSVP')
-
-            if submit_button:
-
-                if name and email and (attending_23rd or attending_24th or attending_26th):
-                    # Process the form data (e.g., save to a database or send an email)
-                    # Get current UTC time and convert to EST
-                    current_time = datetime.now(est).isoformat(timespec='milliseconds')
-
-                    rsvp_record = {
-                        'datetime': current_time,
-                        'name': name,
-                        'email': email,
-                        'attending_23rd': attending_23rd,
-                        'attending_24th': attending_24th,
-                        'attending_26th': attending_26th
-                    }
-                    save_rsvp(rsvp_record)
-                    st.write(f"Thank you for your RSVP, {name}!")
-                    st.write(f"Email: {email}")
-
-                else:
-                    st.error("Please provide your name, email, and select at least one date")
-
-    st.write("---")
-    st.image("amtopm.jpeg", caption="Save the Date")
+def authenticate(password):
+    # Define valid credentials
+    return password == '#ammeetspm_242025'
 
 
+def login_page():
+    st.title("Welcome to #AMmeetsPM")
 
-# Event Timeline Tab
-with tabs[1]:
-    st.header("Event Timeline")
-    st.write("---")
+    if "logged_in" not in st.session_state:
+        st.session_state.logged_in = False
 
-    # Timeline content
-    timeline_data = [
-        {"date": "23rd November 2025: 10:00 AM IST", "title": "Haldi - ঘাই হলুদ", "description": "A splash of sunshine", "attire": "Attire: Bright Shades"},
-        {"date": "23rd November 2025: 07:00 PM IST", "title": "Cocktail - ককটেল", "description": "Rising a toast to the beginning of forever", "attire": "Attire: Glitz & Glam"},
-        {"date": "24th November 2025: 07:00 PM IST", "title": "Bengali Wedding - বাঙালি হিন্দু বিবাহ", "description": "Traditional bengali wedding", "attire": "Attire: Traditional"},
-        {"date": "26th November 2025: 07:00 PM IST", "title": "Bou Bhat - বউ ভাত", "description": "A post-wedding ritual hosted by the groom's family", "attire": "Attire: Bright Shades"},
-    ]
+    password = st.text_input("Please Enter Login Key", type="password")
 
-    # Build the timeline
-    st.markdown('<div class="timeline">', unsafe_allow_html=True)
+    if st.button("Login"):
+        if authenticate(password):
+            st.session_state.logged_in = True
+            st.success("Login successful!")
+            st.rerun()
+        else:
+            st.error("Invalid Key")
 
-    for i, event in enumerate(timeline_data):
-        st.markdown(f'''
-        <div>
-            <div class="date">{event['date']}</div>
-            <div class="content">
-                <h3>{event['title']}</h3>
-                <p>{event['description']}</p>
-                <p>{event['attire']}</p>
-            </div>
-        </div>
-        ''', unsafe_allow_html=True)
 
-    st.markdown('</div>', unsafe_allow_html=True)
+if __name__ == "__main__":
+    if "logged_in" not in st.session_state or not st.session_state.logged_in:
+        login_page()
+    else:
+        # Define the tabs
+        tabs = st.tabs(["RSVP", "Event Timeline", "Testimonials", "Photo Gallery"])
 
-# Testimonials Tab
-with tabs[2]:
-    st.header("Testimonials")
-    st.write("---")
+        # Home Tab
+        with tabs[0]:
+            st.header("RSVP to #AMmeetsPM")
+            # RSVP Form
+            with st.expander("RSVP", expanded=False):
+                with st.form(key='rsvp_form'):
+                    name = st.text_input("Your Name")
+                    email = st.text_input("Your Email")
+                    st.write('Select the dates you can attend')
+                    attending_23rd = st.checkbox('23rd November - Kolkata')
+                    attending_24th = st.checkbox('24th November - Kolkata')
+                    attending_26th = st.checkbox('26th November - Mumbai')
 
-    testimonials = sheet_testimonial.get_all_records()
-    if testimonials:
-        for testimonial in reversed(testimonials):
-            if testimonial.get('anonymous') == 'TRUE':
-                st.write(testimonial['testimonial'])
-                st.write("---")
-            else:
-                st.write(f"**{testimonial['name']}**")
-                st.write(testimonial['testimonial'])
-                st.write("---")
+                    print(attending_23rd, type(attending_23rd))
 
-    # Testimonials Tab
-    with st.expander("Testimonials", expanded=True):
-        st.header("Share Your Testimonial")
-        st.write("We'd love to hear your thoughts. Please share your testimonial (up to 1000 words):")
+                    # Submit button
+                    submit_button = st.form_submit_button(label='Submit RSVP')
 
-        # Create a form for submitting testimonials
-        with st.form(key='testimonial_form'):
-            name = st.text_input("Your Name")
-            anonymous = st.checkbox("Post Anonymously")
-            testimonial_text = st.text_area("Your Testimonial", max_chars=1000)
-            submit_button = st.form_submit_button(label='Submit')
+                    if submit_button:
 
-            if submit_button:
+                        if name and email and (attending_23rd or attending_24th or attending_26th):
+                            # Process the form data (e.g., save to a database or send an email)
+                            # Get current UTC time and convert to EST
+                            current_time = datetime.now(est).isoformat(timespec='milliseconds')
 
-                # Get current UTC time and convert to EST
-                current_time = datetime.now(est).isoformat(timespec='milliseconds')
+                            rsvp_record = {
+                                'datetime': current_time,
+                                'name': name,
+                                'email': email,
+                                'attending_23rd': attending_23rd,
+                                'attending_24th': attending_24th,
+                                'attending_26th': attending_26th
+                            }
+                            save_rsvp(rsvp_record)
+                            st.write(f"Thank you for your RSVP, {name}!")
+                            st.write(f"Email: {email}")
 
-                if name and testimonial_text:
-                    new_testimonial = {
-                        'datetime': current_time,
-                        'name': name,
-                        'testimonial': testimonial_text,
-                        'anonymous': anonymous
-                    }
-                    save_testimonial(new_testimonial)
-                    st.success("Thank you for your testimonial!")
-                else:
-                    st.error("Please provide both your name and testimonial.")
+                        else:
+                            st.error("Please provide your name, email, and select at least one date")
 
-# Photo Gallery Tab
-with tabs[3]:
-    st.header("Photo Gallery")
-    st.write("---")
-    st.write("A collection of our cherished moments")
-    # List of image paths
-    image_paths = ["img1.jpg", "img2.jpg", "img4.jpg", "img5.jpg"]
+            st.write("---")
+            st.image("amtopm.jpeg", caption="#AMmeetsPM")
 
-    # Define the number of columns
-    num_columns = 2
+        # Event Timeline Tab
+        with tabs[1]:
+            st.header("Event Timeline")
+            st.write("---")
 
-    # Create columns
-    cols = st.columns(num_columns)
+            # Timeline content
+            timeline_data = [
+                {"date": "23rd November 2025: 10:00 AM IST", "title": "Haldi - ঘাই হলুদ",
+                 "description": "A splash of sunshine", "attire": "Attire: Bright Shades"},
+                {"date": "23rd November 2025: 07:00 PM IST", "title": "Cocktail - ককটেল",
+                 "description": "Raising a toast to the beginning of forever", "attire": "Attire: Glitz & Glam"},
+                {"date": "24th November 2025: 07:00 PM IST", "title": "Bengali Wedding - বাঙালি হিন্দু বিবাহ",
+                 "description": "Traditional bengali wedding", "attire": "Attire: Traditional"},
+                {"date": "26th November 2025: 07:00 PM IST", "title": "Bou Bhat - বউ ভাত",
+                 "description": "A post-wedding ritual hosted by the groom's family",
+                 "attire": "Attire: Bright Shades"},
+            ]
 
-    # Display images in columns
-    for i, image_path in enumerate(image_paths):
-        with cols[i % num_columns]:
-            st.image(image_path)
+            # Build the timeline
+            st.markdown('<div class="timeline">', unsafe_allow_html=True)
+
+            for i, event in enumerate(timeline_data):
+                st.markdown(f'''
+                <div>
+                    <div class="date">{event['date']}</div>
+                    <div class="content">
+                        <h3>{event['title']}</h3>
+                        <p>{event['description']}</p>
+                        <p>{event['attire']}</p>
+                    </div>
+                </div>
+                ''', unsafe_allow_html=True)
+
+            st.markdown('</div>', unsafe_allow_html=True)
+
+        # Testimonials Tab
+        with tabs[2]:
+            st.header("Testimonials")
+            st.write("---")
+
+            testimonials = sheet_testimonial.get_all_records()
+            if testimonials:
+                for testimonial in reversed(testimonials):
+                    if testimonial.get('anonymous') == 'TRUE':
+                        st.write(testimonial['testimonial'])
+                        st.write("---")
+                    else:
+                        st.write(f"**{testimonial['name']}**")
+                        st.write(testimonial['testimonial'])
+                        st.write("---")
+
+            # Testimonials Tab
+            with st.expander("Testimonials", expanded=True):
+                st.header("Share Your Testimonial")
+                st.write("We'd love to hear your thoughts. Please share your testimonial (up to 1000 words):")
+
+                # Create a form for submitting testimonials
+                with st.form(key='testimonial_form'):
+                    name = st.text_input("Your Name")
+                    anonymous = st.checkbox("Post Anonymously")
+                    testimonial_text = st.text_area("Your Testimonial", max_chars=1000)
+                    submit_button = st.form_submit_button(label='Submit')
+
+                    if submit_button:
+
+                        # Get current UTC time and convert to EST
+                        current_time = datetime.now(est).isoformat(timespec='milliseconds')
+
+                        if name and testimonial_text:
+                            new_testimonial = {
+                                'datetime': current_time,
+                                'name': name,
+                                'testimonial': testimonial_text,
+                                'anonymous': anonymous
+                            }
+                            save_testimonial(new_testimonial)
+                            st.success("Thank you for your testimonial!")
+                        else:
+                            st.error("Please provide both your name and testimonial.")
+
+        # Photo Gallery Tab
+        with tabs[3]:
+            st.header("Photo Gallery")
+            st.write("---")
+            st.write("A collection of our cherished moments")
+            # List of image paths
+            image_paths = ["img1.jpg", "img2.jpg", "img4.jpg", "img5.jpg"]
+
+            # Define the number of columns
+            num_columns = 2
+
+            # Create columns
+            cols = st.columns(num_columns)
+
+            # Display images in columns
+            for i, image_path in enumerate(image_paths):
+                with cols[i % num_columns]:
+                    st.image(image_path)
+
+        if st.button("Logout"):
+            st.session_state.logged_in = False
+            st.rerun()
+
 
