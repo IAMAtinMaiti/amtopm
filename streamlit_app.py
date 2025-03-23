@@ -12,6 +12,10 @@ json_file_path = "amtopm-gs-secret.json"
 sheet_url= "https://docs.google.com/spreadsheets/d/1DTB-Wnlsv80p4hCz2z0Bl5c7VEK1-ScwkKTFm-042bU/edit?usp=sharing"
 json_data = {}
 
+# Set the maximum limit for the counter
+MAX_LIMIT = 3
+MIN_LIMIT = 0
+
 # Unpickle (deserialize) the data
 with open("data.pkl", "rb") as pickle_file:
     json_data = pickle.load(pickle_file)
@@ -146,7 +150,7 @@ def login_page():
     if "logged_in" not in st.session_state:
         st.session_state.logged_in = False
 
-    password = st.text_input("Please Enter Login Key", type="password")
+    password = st.text_input("Please Enter Login Key")
 
     if st.button("Login"):
         if authenticate(password):
@@ -158,6 +162,7 @@ def login_page():
 
 
 if __name__ == "__main__":
+
     if "logged_in" not in st.session_state or not st.session_state.logged_in:
         login_page()
     else:
@@ -170,14 +175,15 @@ if __name__ == "__main__":
             # RSVP Form
             with st.expander("RSVP", expanded=False):
                 with st.form(key='rsvp_form'):
-                    name = st.text_input("Your Name")
-                    email = st.text_input("Your Email")
+                    name = st.text_input("Full Name", placeholder="e.g., John Doe")
+                    email = st.text_input("Email Address", placeholder="e.g., john.doe@gmail.com")
                     st.write('Select the dates you can attend')
                     attending_23rd = st.checkbox('23rd November - Kolkata')
                     attending_24th = st.checkbox('24th November - Kolkata')
                     attending_26th = st.checkbox('26th November - Mumbai')
+                    counter = st.number_input("Additional guests count", min_value=0, max_value=3, step=1, key="counter")
+                    song = st.text_input("Your favorite wedding Jam", placeholder="e.g., Die With A Smile, by Bruno Mars and Lady Gaga")
 
-                    print(attending_23rd, type(attending_23rd))
 
                     # Submit button
                     submit_button = st.form_submit_button(label='Submit RSVP')
@@ -195,7 +201,9 @@ if __name__ == "__main__":
                                 'email': email,
                                 'attending_23rd': attending_23rd,
                                 'attending_24th': attending_24th,
-                                'attending_26th': attending_26th
+                                'attending_26th': attending_26th,
+                                'guests': counter,
+                                'song': song
                             }
                             save_rsvp(rsvp_record)
                             st.write(f"Thank you for your RSVP, {name}!")
@@ -252,11 +260,23 @@ if __name__ == "__main__":
                 for testimonial in reversed(testimonials):
                     if testimonial.get('anonymous') == 'TRUE':
                         st.write(testimonial['testimonial'])
-                        st.write("---")
                     else:
                         st.write(f"**{testimonial['name']}**")
                         st.write(testimonial['testimonial'])
-                        st.write("---")
+
+                    # Define emoji reactions
+                    emojis = {"👍": "Like", "❤️": "Love", "😂": "Funny"}
+                    # Initialize session state for reactions
+                    if "reactions" not in st.session_state:
+                        st.session_state.reactions = {emoji: 0 for emoji in emojis}
+                    # Display reaction buttons
+                    cols = st.columns(len(emojis))  # Create columns for each emoji
+                    for i, (emoji, label) in enumerate(emojis.items()):
+                        if cols[i].button(emoji):
+                            st.session_state.reactions[emoji] += 1  # Increment count
+                    reaction_str = " ".join(f"{emoji} {count}" for emoji, count in st.session_state.reactions.items())
+                    st.write(reaction_str)
+                    st.write("---")
 
             # Testimonials Tab
             with st.expander("Testimonials", expanded=True):
