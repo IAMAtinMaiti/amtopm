@@ -26,8 +26,7 @@ with open(json_file_path, "w") as json_file:
     json.dump(json_data, json_file, indent=2)
 
 gc = gspread.service_account(filename=json_file_path)
-sheet_testimonial = gc.open_by_url(sheet_url).get_worksheet(0)
-sheet_rsvp = gc.open_by_url(sheet_url).get_worksheet(1)
+sheet_rsvp = gc.open_by_url(sheet_url).get_worksheet(0)
 
 
 # Function to save a new rsvp to the file
