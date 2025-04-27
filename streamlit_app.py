@@ -274,7 +274,7 @@ if __name__ == "__main__":
             st.write("---")
             st.write("A collection of our cherished moments")
             # List of image paths
-            image_paths = ["img1.jpg", "img2.jpg", "img4.jpg", "img5.jpg"]
+            image_paths = ["img1.jpg", "img2.jpg"]
 
             # Define the number of columns
             num_columns = 2
