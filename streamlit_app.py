@@ -5,6 +5,7 @@ import pytz
 from datetime import datetime
 import gspread
 import pickle
+import mmh3
 
 # Define Eastern Time Zone
 est = pytz.timezone("America/New_York")
@@ -141,16 +142,15 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 def authenticate(password):
     # Define valid credentials
-    return password == 'ampm2025#'
+    return mmh3.hash(password) == 1778862707
 
 
 def login_page():
     st.title("Welcome to #AMmeetsPM")
-
     if "logged_in" not in st.session_state:
         st.session_state.logged_in = False
 
-    password = st.text_input("Please Enter Login Key")
+    password = st.text_input("Enter the key, then click Login.", placeholder="Enter Key")
 
     if st.button("Login"):
         if authenticate(password):
@@ -159,6 +159,8 @@ def login_page():
             st.rerun()
         else:
             st.error("Invalid Key")
+
+    st.image("amtopm.jpeg", caption="#AMmeetsPM")
 
 
 if __name__ == "__main__":
@@ -171,7 +173,7 @@ if __name__ == "__main__":
 
         # Home Tab
         with tabs[0]:
-            st.header("Save the Date! 24th November 2025")
+            st.header("We are delighted to invite you to our wedding!")
             # RSVP Form
             with st.expander("RSVP", expanded=False):
                 with st.form(key='rsvp_form'):
@@ -212,8 +214,7 @@ if __name__ == "__main__":
                         else:
                             st.error("Please provide your name, email, and select at least one date")
 
-            st.write("---")
-            st.image("amtopm.jpeg", caption="#AMmeetsPM")
+            st.video("invite.MP4", format="video/mp4", autoplay=True, muted=False, loop=True)
 
         # Event Timeline Tab
         with tabs[1]:
