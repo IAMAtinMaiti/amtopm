@@ -1,16 +1,17 @@
-import streamlit as st
-import pandas as pd
 import json
-import pytz
-from datetime import datetime
-import gspread
 import pickle
+from datetime import datetime
+
+import gspread
 import mmh3
+import pandas as pd
+import pytz
+import streamlit as st
 
 # Define Eastern Time Zone
 est = pytz.timezone("America/New_York")
 json_file_path = "amtopm-gs-secret.json"
-sheet_url= "https://docs.google.com/spreadsheets/d/1DTB-Wnlsv80p4hCz2z0Bl5c7VEK1-ScwkKTFm-042bU/edit?usp=sharing"
+sheet_url = "https://docs.google.com/spreadsheets/d/1DTB-Wnlsv80p4hCz2z0Bl5c7VEK1-ScwkKTFm-042bU/edit?usp=sharing"
 json_data = {}
 
 # Set the maximum limit for the counter
@@ -28,6 +29,7 @@ with open(json_file_path, "w") as json_file:
 gc = gspread.service_account(filename=json_file_path)
 sheet_testimonial = gc.open_by_url(sheet_url).get_worksheet(0)
 sheet_rsvp = gc.open_by_url(sheet_url).get_worksheet(1)
+
 
 # Function to save a new testimonial to the file
 def save_testimonial(record):
@@ -60,6 +62,7 @@ def save_testimonial(record):
 
     print("Google Sheet updated successfully!")
 
+
 # Function to save a new rsvp to the file
 def save_rsvp(rsvp):
     """
@@ -91,6 +94,7 @@ def save_rsvp(rsvp):
         sheet_rsvp.update(data_list)
 
     print("Google Sheet updated successfully!")
+
 
 # Apply custom CSS to hide Streamlit icons
 hide_streamlit_style = """
@@ -140,6 +144,7 @@ hide_streamlit_style = """
 st.set_page_config(page_title="#AMmeetsPM")
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
+
 def authenticate(password):
     # Define valid credentials
     return mmh3.hash(password) == 1778862707
@@ -150,7 +155,9 @@ def login_page():
     if "logged_in" not in st.session_state:
         st.session_state.logged_in = False
 
-    password = st.text_input("Enter the key, then click Login.", placeholder="Enter Key")
+    password = st.text_input(
+        "Enter the key, then click Login.", placeholder="Enter Key"
+    )
 
     if st.button("Login"):
         if authenticate(password):
@@ -176,45 +183,67 @@ if __name__ == "__main__":
             st.header("We are delighted to invite you to our wedding!")
             # RSVP Form
             with st.expander("**RSVP**", expanded=True):
-                with st.form(key='rsvp_form'):
+                with st.form(key="rsvp_form"):
                     name = st.text_input("Full Name", placeholder="e.g., John Doe")
-                    email = st.text_input("Email Address", placeholder="e.g., john.doe@gmail.com")
-                    st.write('Select the dates you can attend')
-                    attending_23rd = st.checkbox('23rd November - Kolkata')
-                    attending_24th = st.checkbox('24th November - Kolkata')
-                    attending_26th = st.checkbox('26th November - Mumbai')
-                    counter = int(st.number_input("Additional guests count", min_value=0, max_value=3, step=1, key="counter"))
-                    song = st.text_input("Your favorite wedding Jam", placeholder="e.g., Die With A Smile, by Bruno Mars and Lady Gaga")
-
+                    email = st.text_input(
+                        "Email Address", placeholder="e.g., john.doe@gmail.com"
+                    )
+                    st.write("Select the dates you can attend")
+                    attending_23rd = st.checkbox("23rd November - Kolkata")
+                    attending_24th = st.checkbox("24th November - Kolkata")
+                    attending_26th = st.checkbox("26th November - Mumbai")
+                    counter = int(
+                        st.number_input(
+                            "Additional guests count",
+                            min_value=0,
+                            max_value=3,
+                            step=1,
+                            key="counter",
+                        )
+                    )
+                    song = st.text_input(
+                        "Your favorite wedding Jam",
+                        placeholder="e.g., Die With A Smile, by Bruno Mars and Lady Gaga",
+                    )
 
                     # Submit button
-                    submit_button = st.form_submit_button(label='**Submit RSVP**')
+                    submit_button = st.form_submit_button(label="**Submit RSVP**")
 
                     if submit_button:
 
-                        if name and email and (attending_23rd or attending_24th or attending_26th):
+                        if (
+                            name
+                            and email
+                            and (attending_23rd or attending_24th or attending_26th)
+                        ):
                             # Process the form data (e.g., save to a database or send an email)
                             # Get current UTC time and convert to EST
-                            current_time = datetime.now(est).isoformat(timespec='milliseconds')
+                            current_time = datetime.now(est).isoformat(
+                                timespec="milliseconds"
+                            )
 
                             rsvp_record = {
-                                'datetime': current_time,
-                                'name': name,
-                                'email': email,
-                                'attending_23rd': attending_23rd,
-                                'attending_24th': attending_24th,
-                                'attending_26th': attending_26th,
-                                'guests': counter,
-                                'song': song
+                                "datetime": current_time,
+                                "name": name,
+                                "email": email,
+                                "attending_23rd": attending_23rd,
+                                "attending_24th": attending_24th,
+                                "attending_26th": attending_26th,
+                                "guests": counter,
+                                "song": song,
                             }
                             save_rsvp(rsvp_record)
                             st.write(f"Thank you for your RSVP, {name}!")
                             st.write(f"Email: {email}")
 
                         else:
-                            st.error("Please provide your name, email, and select at least one date")
+                            st.error(
+                                "Please provide your name, email, and select at least one date"
+                            )
 
-            st.video("invite.MP4", format="video/mp4", autoplay=True, muted=False, loop=True)
+            st.video(
+                "invite.MP4", format="video/mp4", autoplay=True, muted=False, loop=True
+            )
 
         # Event Timeline Tab
         with tabs[1]:
@@ -223,33 +252,56 @@ if __name__ == "__main__":
 
             # Timeline content
             timeline_data = [
-                {"date": "23rd November 2025: 10:00 AM IST", "title": "Haldi - ঘাই হলুদ",
-                 "description": "A splash of sunshine", "attire": "Attire: Bright Shades"},
-                {"date": "23rd November 2025: 07:00 PM IST", "title": "Cocktail - ককটেল",
-                 "description": "Raising a toast to the beginning of forever", "attire": "Attire: Glitz & Glam"},
-                {"date": "24th November 2025: 07:00 PM IST", "title": "Bengali Wedding - বাঙালি হিন্দু বিবাহ",
-                 "description": "Traditional bengali wedding", "attire": "Attire: Traditional"},
-                {"date": "26th November 2025: 07:00 PM IST", "title": "Bou Bhat - বউ ভাত",
-                 "description": "A post-wedding ritual hosted by the groom's family",
-                 "attire": "Attire: Bright Shades"},
+                {
+                    "date": "23rd November 2025: 10:00 AM IST",
+                    "title": "Haldi - ঘাই হলুদ",
+                    "description": "A splash of sunshine",
+                    "attire": "Theme: Bright Shades",
+                    "location": "Venue: Pride Plaza Hotel, Kolkata",
+                },
+                {
+                    "date": "23rd November 2025: 07:00 PM IST",
+                    "title": "Cocktail - ককটেল",
+                    "description": "Raising a toast to the beginning of forever",
+                    "attire": "Theme: Glitz & Glam",
+                    "location": "Venue: New Town Kolkata",
+                },
+                {
+                    "date": "24th November 2025: 07:00 PM IST",
+                    "title": "Bengali Wedding - বাঙালি হিন্দু বিবাহ",
+                    "description": "Traditional bengali wedding",
+                    "attire": "Theme: Traditional",
+                    "location": "Venue: Pride Plaza Hotel, Kolkata",
+                },
+                {
+                    "date": "26th November 2025: 07:00 PM IST",
+                    "title": "Bou Bhat - বউ ভাত",
+                    "description": "A post-wedding ritual hosted by the groom's family",
+                    "attire": "Theme: Fine Dine",
+                    "location": "Venue: Courtyard Navi Mumbai",
+                },
             ]
 
             # Build the timeline
             st.markdown('<div class="timeline">', unsafe_allow_html=True)
 
             for i, event in enumerate(timeline_data):
-                st.markdown(f'''
+                st.markdown(
+                    f"""
                 <div>
                     <div class="date">{event['date']}</div>
                     <div class="content">
                         <h3>{event['title']}</h3>
                         <p>{event['description']}</p>
                         <p>{event['attire']}</p>
+                        <p>{event['location']}</p>
                     </div>
                 </div>
-                ''', unsafe_allow_html=True)
+                """,
+                    unsafe_allow_html=True,
+                )
 
-            st.markdown('</div>', unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
 
         # Testimonials Tab
         with tabs[2]:
@@ -259,11 +311,11 @@ if __name__ == "__main__":
             testimonials = sheet_testimonial.get_all_records()
             if testimonials:
                 for testimonial in reversed(testimonials):
-                    if testimonial.get('anonymous') == 'TRUE':
-                        st.write(testimonial['testimonial'])
+                    if testimonial.get("anonymous") == "TRUE":
+                        st.write(testimonial["testimonial"])
                     else:
                         st.write(f"**{testimonial['name']}**")
-                        st.write(testimonial['testimonial'])
+                        st.write(testimonial["testimonial"])
 
                     # Define emoji reactions
                     emojis = {"👍": "Like", "❤️": "Love", "😂": "Funny"}
@@ -275,34 +327,41 @@ if __name__ == "__main__":
                     for i, (emoji, label) in enumerate(emojis.items()):
                         if cols[i].button(emoji):
                             st.session_state.reactions[emoji] += 1  # Increment count
-                    reaction_str = " ".join(f"{emoji} {count}" for emoji, count in st.session_state.reactions.items())
+                    reaction_str = " ".join(
+                        f"{emoji} {count}"
+                        for emoji, count in st.session_state.reactions.items()
+                    )
                     st.write(reaction_str)
                     st.write("---")
 
             # Testimonials Tab
             with st.expander("Testimonials", expanded=True):
                 st.header("Share Your Testimonial")
-                st.write("We'd love to hear your thoughts. Please share your testimonial (up to 1000 words):")
+                st.write(
+                    "We'd love to hear your thoughts. Please share your testimonial (up to 1000 words):"
+                )
 
                 # Create a form for submitting testimonials
-                with st.form(key='testimonial_form'):
+                with st.form(key="testimonial_form"):
                     name = st.text_input("Your Name")
                     anonymous = st.checkbox("Post Anonymously")
                     testimonial_text = st.text_area("Your Testimonial", max_chars=1000)
-                    submit_button = st.form_submit_button(label='Submit')
+                    submit_button = st.form_submit_button(label="Submit")
 
                     if submit_button:
 
                         # Get current UTC time and convert to EST
-                        current_time = datetime.now(est).isoformat(timespec='milliseconds')
+                        current_time = datetime.now(est).isoformat(
+                            timespec="milliseconds"
+                        )
 
                         if name and testimonial_text:
                             new_testimonial = {
-                                'datetime': current_time,
-                                'name': name,
-                                'testimonial': testimonial_text,
-                                'anonymous': anonymous,
-                                'reaction': ""
+                                "datetime": current_time,
+                                "name": name,
+                                "testimonial": testimonial_text,
+                                "anonymous": anonymous,
+                                "reaction": "",
                             }
                             save_testimonial(new_testimonial)
                             st.success("Thank you for your testimonial!")
@@ -331,5 +390,3 @@ if __name__ == "__main__":
         if st.button("Logout"):
             st.session_state.logged_in = False
             st.rerun()
-
-
