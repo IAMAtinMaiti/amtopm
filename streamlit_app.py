@@ -175,7 +175,7 @@ if __name__ == "__main__":
         with tabs[0]:
             st.header("We are delighted to invite you to our wedding!")
             # RSVP Form
-            with st.expander("RSVP", expanded=False):
+            with st.expander("**RSVP**", expanded=True):
                 with st.form(key='rsvp_form'):
                     name = st.text_input("Full Name", placeholder="e.g., John Doe")
                     email = st.text_input("Email Address", placeholder="e.g., john.doe@gmail.com")
@@ -188,7 +188,7 @@ if __name__ == "__main__":
 
 
                     # Submit button
-                    submit_button = st.form_submit_button(label='Submit RSVP')
+                    submit_button = st.form_submit_button(label='**Submit RSVP**')
 
                     if submit_button:
 
