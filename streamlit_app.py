@@ -146,7 +146,7 @@ def authenticate(password):
 
 
 def login_page():
-    st.title("Welcome to #AMmeetsPM")
+    st.title("Celebrating #AMmeetsPM")
     if "logged_in" not in st.session_state:
         st.session_state.logged_in = False
 
