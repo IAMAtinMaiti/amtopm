@@ -181,7 +181,7 @@ if __name__ == "__main__":
                     attending_23rd = st.checkbox('23rd November - Kolkata')
                     attending_24th = st.checkbox('24th November - Kolkata')
                     attending_26th = st.checkbox('26th November - Mumbai')
-                    counter = st.number_input("Additional guests count", min_value=0, max_value=3, step=1, key="counter")
+                    counter = int(st.number_input("Additional guests count", min_value=0, max_value=3, step=1, key="counter"))
                     song = st.text_input("Your favorite wedding Jam", placeholder="e.g., Die With A Smile, by Bruno Mars and Lady Gaga")
 
 
@@ -300,7 +300,8 @@ if __name__ == "__main__":
                                 'datetime': current_time,
                                 'name': name,
                                 'testimonial': testimonial_text,
-                                'anonymous': anonymous
+                                'anonymous': anonymous,
+                                'reaction': ""
                             }
                             save_testimonial(new_testimonial)
                             st.success("Thank you for your testimonial!")
