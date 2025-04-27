@@ -168,7 +168,7 @@ if __name__ == "__main__":
                     )
                     song = st.text_input(
                         "Your favorite wedding Jam",
-                        placeholder="e.g., Die With A Smile, by Bruno Mars and Lady Gaga",
+                        placeholder="e.g., Mahi Ve by Shankar Ehsan Loy",
                     )
 
                     # Submit button
@@ -222,14 +222,14 @@ if __name__ == "__main__":
                     "title": "Haldi - ঘাই হলুদ",
                     "description": "A splash of sunshine",
                     "attire": "Theme: Bright Shades",
-                    "location": "Venue: Pride Plaza Hotel, Kolkata",
+                    "location": "Venue: New Town Kolkata",
                 },
                 {
                     "date": "23rd November 2025: 07:00 PM IST",
                     "title": "Cocktail - ককটেল",
                     "description": "Raising a toast to the beginning of forever",
                     "attire": "Theme: Glitz & Glam",
-                    "location": "Venue: New Town Kolkata",
+                    "location": "Venue: Pride Plaza Hotel, Kolkata",
                 },
                 {
                     "date": "24th November 2025: 07:00 PM IST",
