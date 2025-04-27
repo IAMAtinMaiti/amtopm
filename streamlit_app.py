@@ -1,7 +1,6 @@
 import json
 import pickle
 from datetime import datetime
-
 import gspread
 import mmh3
 import pandas as pd
@@ -31,38 +30,6 @@ sheet_testimonial = gc.open_by_url(sheet_url).get_worksheet(0)
 sheet_rsvp = gc.open_by_url(sheet_url).get_worksheet(1)
 
 
-# Function to save a new testimonial to the file
-def save_testimonial(record):
-    """
-
-    :param record: dict
-    :return:
-    """
-    sheet_testimonial = gc.open_by_url(sheet_url).get_worksheet(0)
-    records = sheet_testimonial.get_all_records()
-
-    if len(testimonials) == 0:
-
-        _df = pd.DataFrame([record])
-        # Convert DataFrame to a list of lists
-        data_list = [_df.columns.tolist()] + _df.values.tolist()
-
-        # Update the sheet
-        sheet_testimonial.update(data_list)
-
-    else:
-        records.append(record)
-        _df = pd.DataFrame(records)
-
-        # Convert DataFrame to a list of lists
-        data_list = [_df.columns.tolist()] + _df.values.tolist()
-
-        # Update the sheet
-        sheet_testimonial.update(data_list)
-
-    print("Google Sheet updated successfully!")
-
-
 # Function to save a new rsvp to the file
 def save_rsvp(rsvp):
     """
@@ -70,7 +37,6 @@ def save_rsvp(rsvp):
     :param rsvp:
     :return:
     """
-    sheet_rsvp = gc.open_by_url(sheet_url).get_worksheet(1)
     rsvps = sheet_rsvp.get_all_records()
     print(rsvps)
 
@@ -176,7 +142,7 @@ if __name__ == "__main__":
         login_page()
     else:
         # Define the tabs
-        tabs = st.tabs(["RSVP", "Event Timeline", "Testimonials", "Photo Gallery"])
+        tabs = st.tabs(["RSVP", "Event Timeline", "Photo Gallery"])
 
         # Home Tab
         with tabs[0]:
@@ -303,73 +269,8 @@ if __name__ == "__main__":
 
             st.markdown("</div>", unsafe_allow_html=True)
 
-        # Testimonials Tab
-        with tabs[2]:
-            st.header("Testimonials")
-            st.write("---")
-
-            testimonials = sheet_testimonial.get_all_records()
-            if testimonials:
-                for testimonial in reversed(testimonials):
-                    if testimonial.get("anonymous") == "TRUE":
-                        st.write(testimonial["testimonial"])
-                    else:
-                        st.write(f"**{testimonial['name']}**")
-                        st.write(testimonial["testimonial"])
-
-                    # Define emoji reactions
-                    emojis = {"👍": "Like", "❤️": "Love", "😂": "Funny"}
-                    # Initialize session state for reactions
-                    if "reactions" not in st.session_state:
-                        st.session_state.reactions = {emoji: 0 for emoji in emojis}
-                    # Display reaction buttons
-                    cols = st.columns(len(emojis))  # Create columns for each emoji
-                    for i, (emoji, label) in enumerate(emojis.items()):
-                        if cols[i].button(emoji):
-                            st.session_state.reactions[emoji] += 1  # Increment count
-                    reaction_str = " ".join(
-                        f"{emoji} {count}"
-                        for emoji, count in st.session_state.reactions.items()
-                    )
-                    st.write(reaction_str)
-                    st.write("---")
-
-            # Testimonials Tab
-            with st.expander("Testimonials", expanded=True):
-                st.header("Share Your Testimonial")
-                st.write(
-                    "We'd love to hear your thoughts. Please share your testimonial (up to 1000 words):"
-                )
-
-                # Create a form for submitting testimonials
-                with st.form(key="testimonial_form"):
-                    name = st.text_input("Your Name")
-                    anonymous = st.checkbox("Post Anonymously")
-                    testimonial_text = st.text_area("Your Testimonial", max_chars=1000)
-                    submit_button = st.form_submit_button(label="Submit")
-
-                    if submit_button:
-
-                        # Get current UTC time and convert to EST
-                        current_time = datetime.now(est).isoformat(
-                            timespec="milliseconds"
-                        )
-
-                        if name and testimonial_text:
-                            new_testimonial = {
-                                "datetime": current_time,
-                                "name": name,
-                                "testimonial": testimonial_text,
-                                "anonymous": anonymous,
-                                "reaction": "",
-                            }
-                            save_testimonial(new_testimonial)
-                            st.success("Thank you for your testimonial!")
-                        else:
-                            st.error("Please provide both your name and testimonial.")
-
         # Photo Gallery Tab
-        with tabs[3]:
+        with tabs[2]:
             st.header("Photo Gallery")
             st.write("---")
             st.write("A collection of our cherished moments")
