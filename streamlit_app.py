@@ -141,7 +141,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 def authenticate(password):
     # Define valid credentials
-    return password == '#ammeetspm24NOV2025'
+    return password == 'ampm2025#'
 
 
 def login_page():
