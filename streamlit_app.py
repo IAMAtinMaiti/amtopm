@@ -29,12 +29,13 @@ gc = gspread.service_account(filename=json_file_path)
 sheet_rsvp = gc.open_by_url(sheet_url).get_worksheet(0)
 
 
-# Function to save a new rsvp to the file
+# Function to save a new RSVP to the file
 def save_rsvp(rsvp):
     """
+    Save a new RSVP to the Google Sheet.
 
-    :param rsvp:
-    :return:
+    :param rsvp: Dictionary containing RSVP details.
+    :return: None
     """
     rsvps = sheet_rsvp.get_all_records()
     print(rsvps)
@@ -64,7 +65,6 @@ def save_rsvp(rsvp):
 # Apply custom CSS to hide Streamlit icons
 hide_streamlit_style = """
     <style>
-    
         #MainMenu {visibility: hidden;}
         header {visibility: hidden;}
         .timeline {
@@ -121,7 +121,7 @@ def login_page():
         st.session_state.logged_in = False
 
     password = st.text_input(
-        "Enter the key, then click Login.", placeholder="Enter Key"
+        "Enter the key, then click Login.", placeholder="Enter the key"
     )
 
     if st.button("Login"):
@@ -130,7 +130,7 @@ def login_page():
             st.success("Login successful!")
             st.rerun()
         else:
-            st.error("Invalid Key")
+            st.error("Invalid key")
 
     st.image("amtopm.jpeg", caption="#AMmeetsPM")
 
@@ -153,13 +153,13 @@ if __name__ == "__main__":
                     email = st.text_input(
                         "Email Address", placeholder="e.g., john.doe@gmail.com"
                     )
-                    st.write("Select the dates you can attend")
+                    st.write("Select the dates you can attend:")
                     attending_23rd = st.checkbox("23rd November - Kolkata")
                     attending_24th = st.checkbox("24th November - Kolkata")
                     attending_26th = st.checkbox("26th November - Mumbai")
                     counter = int(
                         st.number_input(
-                            "Additional guests count",
+                            "Additional guest count",
                             min_value=0,
                             max_value=3,
                             step=1,
@@ -167,8 +167,8 @@ if __name__ == "__main__":
                         )
                     )
                     song = st.text_input(
-                        "Your favorite wedding Jam",
-                        placeholder="e.g., Mahi Ve by Shankar Ehsan Loy",
+                        "Your favorite wedding jam",
+                        placeholder="e.g., Mahi Ve by Shankar Ehsaan Loy",
                     )
 
                     # Submit button
@@ -203,7 +203,7 @@ if __name__ == "__main__":
 
                         else:
                             st.error(
-                                "Please provide your name, email, and select at least one date"
+                                "Please provide your name, email, and select at least one date."
                             )
 
             st.video(
@@ -222,7 +222,7 @@ if __name__ == "__main__":
                     "title": "Haldi - ঘাই হলুদ",
                     "description": "A splash of sunshine",
                     "attire": "Theme: Bright Shades",
-                    "location": "Venue: New Town Kolkata",
+                    "location": "Venue: New Town, Kolkata",
                 },
                 {
                     "date": "23rd November 2025: 07:00 PM IST",
@@ -272,7 +272,7 @@ if __name__ == "__main__":
         with tabs[2]:
             st.header("Photo Gallery")
             st.write("---")
-            st.write("A collection of our cherished moments")
+            st.write("Welcome to Our Love Story!")
             # List of image paths
             image_paths = ["img1.jpg", "img2.jpg"]
 
@@ -286,6 +286,9 @@ if __name__ == "__main__":
             for i, image_path in enumerate(image_paths):
                 with cols[i % num_columns]:
                     st.image(image_path)
+
+            st.write("---")
+            st.write("Check back often -- more photos to come!")
 
         if st.button("Logout"):
             st.session_state.logged_in = False
