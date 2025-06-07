@@ -234,13 +234,13 @@ if __name__ == "__main__":
                 {
                     "date": "24th November 2025: 07:00 PM IST",
                     "title": "Bengali Wedding - বাঙালি হিন্দু বিবাহ",
-                    "description": "Traditional bengali wedding",
-                    "attire": "Theme: Traditional",
+                    "description": "Traditional Bengali Wedding",
+                    "attire": "Theme: Indian Traditional",
                     "location": "Venue: Pride Plaza Hotel, Kolkata",
                 },
                 {
                     "date": "26th November 2025: 07:00 PM IST",
-                    "title": "Bou Bhat - বউ ভাত",
+                    "title": "Bou Bhaat - বউ ভাত",
                     "description": "A post-wedding ritual hosted by the groom's family",
                     "attire": "Theme: Fine Dine",
                     "location": "Venue: Courtyard Navi Mumbai",
@@ -275,7 +275,7 @@ if __name__ == "__main__":
             st.write("Welcome to Our Love Story!")
             # List of image paths and their captions
             images = [
-                {"path": "img1.jpg", "caption": "Together we peak - Rocky Mountain National Park, Colorado"},
+                {"path": "img1.jpg", "caption": "Together, we peak - Rocky Mountain National Park, Colorado"},
                 {"path": "img2.jpg", "caption": "When we fell in love with southern food - Hot Springs National Park, Arkansas"},
                 {"path": "img3.jpg", "caption": "Just two lobsters, F.R.I.E.N.D.S - West Village, New York"},
                 {"path": "img4.jpg", "caption": "Forever in love with the city & you - Midtown, New York"},
