@@ -273,19 +273,20 @@ if __name__ == "__main__":
             st.header("Photo Gallery")
             st.write("---")
             st.write("Welcome to Our Love Story!")
-            # List of image paths
-            image_paths = ["img1.jpg", "img2.jpg", "img3.jpg", "img4.jpg"]
+            # List of image paths and their captions
+            images = [
+                {"path": "img1.jpg", "caption": "Together we peak - Rocky Mountain National Park, Colorado"},
+                {"path": "img2.jpg", "caption": "When we fell in love with southern food - Hot Springs National Park, Arkansas"},
+                {"path": "img3.jpg", "caption": "Just two lobsters, F.R.I.E.N.D.S - West Village, New York"},
+                {"path": "img4.jpg", "caption": "Forever in love with the city & you - Midtown, New York"},
+            ]
 
-            # Define the number of columns
             num_columns = 2
-
-            # Create columns
             cols = st.columns(num_columns)
 
-            # Display images in columns
-            for i, image_path in enumerate(image_paths):
+            for i, img in enumerate(images):
                 with cols[i % num_columns]:
-                    st.image(image_path)
+                    st.image(img["path"], caption=img["caption"])
 
             st.write("---")
             st.write("Check back often -- more photos to come!")
