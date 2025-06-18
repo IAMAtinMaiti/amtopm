@@ -279,6 +279,7 @@ if __name__ == "__main__":
                 {"path": "img2.jpg", "caption": "When we fell in love with southern food - Hot Springs National Park, Arkansas"},
                 {"path": "img3.jpg", "caption": "Just two lobsters, F.R.I.E.N.D.S - West Village, New York"},
                 {"path": "img4.jpg", "caption": "Forever in love with the city & you - Midtown, New York"},
+                {"path": "img5.jpg", "caption": "Perfecto - Hochatown, Oklahoma"}
             ]
 
             num_columns = 2
