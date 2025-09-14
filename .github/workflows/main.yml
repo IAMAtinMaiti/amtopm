@@ -2,8 +2,11 @@ name: First Cron Job
 
 on:
   schedule:
-    - cron: "20 8,20 * * *"
+    - cron: "50 8,20 * * *"
 
+permissions:
+  contents: write
+  
 jobs:
   cron:
     runs-on: ubuntu-latest
